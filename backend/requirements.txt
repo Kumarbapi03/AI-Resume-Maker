@@ -1,0 +1,10 @@
+flask
+flask_sqlalchemy
+google-cloud-translate
+google-cloud-texttospeech
+google-cloud-speech
+google-generativeai
+python-dotenv
+gunicorn
+# Need this for audio processing
+import-base64

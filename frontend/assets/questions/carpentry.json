@@ -1,0 +1,134 @@
+{
+  "profession": "carpentry",
+  "questions": [
+    {
+      "id": "full_name",
+      "question": "What is your full name?",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "phone",
+      "question": "What is your phone number?",
+      "type": "tel",
+      "required": true
+    },
+    {
+      "id": "email",
+      "question": "What is your email address?",
+      "type": "email",
+      "required": false
+    },
+    {
+      "id": "address",
+      "question": "What is your complete address?",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "experience_years",
+      "question": "How many years of carpentry experience do you have?",
+      "type": "mcq",
+      "options": ["0-1 years", "1-3 years", "3-5 years", "5-10 years", "10+ years"],
+      "required": true
+    },
+    {
+      "id": "carpentry_type",
+      "question": "What type of carpentry do you specialize in?",
+      "type": "mcq",
+      "options": ["Rough Carpentry", "Finish Carpentry", "Framing", "Cabinet Making", "Furniture Making", "All Types"],
+      "required": true
+    },
+    {
+      "id": "wood_materials",
+      "question": "Which wood materials are you experienced with?",
+      "type": "multi-select",
+      "options": ["Softwood", "Hardwood", "Plywood", "MDF", "Particle Board", "Laminates", "Veneers", "All Materials"],
+      "required": true
+    },
+    {
+      "id": "tools_equipment",
+      "question": "Which carpentry tools can you operate?",
+      "type": "multi-select",
+      "options": ["Circular Saw", "Table Saw", "Router", "Planer", "Jointer", "Chisels", "Power Drills", "Sanders", "Measuring Tools", "All Tools"],
+      "required": true
+    },
+    {
+      "id": "joinery_techniques",
+      "question": "Which joinery techniques do you know?",
+      "type": "multi-select",
+      "options": ["Butt Joints", "Miter Joints", "Dovetail Joints", "Mortise & Tenon", "Dado Joints", "All Techniques"],
+      "required": true
+    },
+    {
+      "id": "finishing_skills",
+      "question": "What finishing skills do you possess?",
+      "type": "multi-select",
+      "options": ["Sanding", "Staining", "Varnishing", "Painting", "Polishing", "All Finishes"],
+      "required": true
+    },
+    {
+      "id": "project_types",
+      "question": "What types of projects have you worked on?",
+      "type": "multi-select",
+      "options": ["Residential Construction", "Commercial Buildings", "Furniture Making", "Cabinet Installation", "Door & Window Installation", "Deck Building", "Custom Millwork", "All Projects"],
+      "required": true
+    },
+    {
+      "id": "blueprint_skills",
+      "question": "Can you read carpentry blueprints?",
+      "type": "mcq",
+      "options": ["Yes, proficiently", "Basic understanding", "No"],
+      "required": true
+    },
+    {
+      "id": "safety_knowledge",
+      "question": "What safety procedures do you follow?",
+      "type": "multi-select",
+      "options": ["Power Tool Safety", "Dust Control", "PPE Usage", "Workshop Safety", "All Safety Procedures"],
+      "required": true
+    },
+    {
+      "id": "education",
+      "question": "What is your highest education level?",
+      "type": "mcq",
+      "options": ["High School", "ITI/Diploma in Carpentry", "Vocational Training", "Apprenticeship", "No Formal Education"],
+      "required": true
+    },
+    {
+      "id": "measurement_skills",
+      "question": "How would you rate your measurement skills?",
+      "type": "mcq",
+      "options": ["Excellent", "Good", "Average", "Basic"],
+      "required": true
+    },
+    {
+      "id": "languages",
+      "question": "Which languages do you speak?",
+      "type": "multi-select",
+      "options": ["English", "Hindi", "Regional Language", "Multiple Languages"],
+      "required": true
+    },
+    {
+      "id": "availability",
+      "question": "When can you start work?",
+      "type": "mcq",
+      "options": ["Immediately", "Within 1 week", "Within 2 weeks", "Within 1 month", "Flexible"],
+      "required": true
+    },
+    {
+      "id": "work_preference",
+      "question": "What is your work preference?",
+      "type": "multi-select",
+      "options": ["Full Time", "Part Time", "Contract Basis", "Shop Work", "Site Work", "All Types"],
+      "required": true
+    },
+    {
+      "id": "salary_expectation",
+      "question": "What are your salary expectations?",
+      "type": "mcq",
+      "options": ["₹15,000-22,000/month", "₹22,000-30,000/month", "₹30,000-40,000/month", "₹40,000-55,000/month", "₹55,000+/month", "Negotiable"],
+      "required": false
+    }
+  ]
+}

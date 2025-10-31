@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary-lightest: #C6E7D8;
+            --primary-dark: #486855;
+            --secondary-darkest: #05393B;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-lightest);
+            color: var(--secondary-darkest);
+            margin: 0;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            padding: 2rem 3rem;
+        }
+        .resume-content {
+            border: 1px solid #eee;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            background: #fdfdfd;
+            line-height: 1.6;
+        }
+        .loading {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        .download-btn {
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background-color 0.2s;
+        }
+        .download-btn:hover { background-color: #4C7F62; }
+        .download-btn:disabled { background-color: #aaa; }
+        
+        /* Styles for generated Markdown */
+        .resume-content h1 {
+            font-size: 1.8rem;
+            color: var(--secondary-darkest);
+            border-bottom: 2px solid var(--primary-dark);
+            padding-bottom: 5px;
+        }
+        .resume-content h2 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-top: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+        }
+        .resume-content ul { padding-left: 20px; }
+        .resume-content p { margin: 0.5rem 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Your Generated Resume</h1>
+        <p>Your AI-generated resume is ready. You can copy the text or download it.</p>
+        
+        <div class="resume-content" id="resume-output">
+            <p class="loading">Loading your resume...</p>
+        </div>
+        
+        <button id="download-btn" class="download-btn" disabled>Download as Text</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const resumeOutput = document.getElementById('resume-output');
+            const downloadBtn = document.getElementById('download-btn');
+            let resumeText = ''; // To store the raw text for download
+
+            // 1. Get resume_id from URL
+            const params = new URLSearchParams(window.location.search);
+            const resumeId = params.get('resume_id');
+
+            if (!resumeId) {
+                resumeOutput.innerHTML = '<p class="loading" style="color: red;">Error: No resume ID found.</p>';
+                return;
+            }
+
+            try {
+                // 2. Fetch the resume data from the backend
+                const response = await fetch(`/backend/api/resume/${resumeId}`);
+                if (!response.ok) {
+                    throw new Error('Resume not found or server error.');
+                }
+                
+                const resumeData = await response.json();
+                
+                // 3. Display the resume (converting Markdown to HTML)
+                resumeText = resumeData.content;
+                resumeOutput.innerHTML = marked.parse(resumeText); // Use marked.js
+                
+                // 4. Enable download button
+                downloadBtn.disabled = false;
+
+            } catch (error) {
+                console.error(error);
+                resumeOutput.innerHTML = `<p class="loading" style="color: red;">${error.message}</p>`;
+            }
+
+            // 5. Add download functionality
+            downloadBtn.addEventListener('click', () => {
+                const blob = new Blob([resumeText], { type: 'text/plain' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'resume.txt';
+                a.click();
+                URL.revokeObjectURL(a.href);
+            });
+        });
+    </script>
+</body>
+</html>

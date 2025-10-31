@@ -1,0 +1,72 @@
+
+
+{
+  "app_name": "Resume Maker",
+  "welcome_title": "Welcome to Technolize",
+  "ai_tag": "AI-powered efficiency",
+  "subtitle": "Build your professional resume with AI-powered efficiency, ensuring smarter formatting and streamlined success.",
+  "lets_make": "Let's Make",
+  "select_profession": "Select Your Profession",
+  "question": "Question",
+  "of": "of",
+  "previous": "Previous",
+  "next": "Next",
+  "type_answer": "Type your answer here...",
+  "resume_preview": "Resume Preview",
+  "professional_summary": "Professional Summary",
+  "skills": "Skills",
+  "experience": "Experience",
+  "download_pdf": "Download PDF",
+  
+  "alert_required": "Please answer this question before continuing.",
+  "alert_voice": "Use voice (Requires browser permission)",
+  "alert_tts": "Read aloud (Requires browser permission)",
+  "alert_no_text": "No text to read aloud!",
+  "alert_mic_permission": "Could not access microphone. Please grant permission.",
+  "alert_tts_fail": "Could not play audio.",
+  "alert_stt_fail": "Could not understand audio. Please try again.",
+  "alert_stt_error": "Failed to send audio to server.",
+  "alert_lang_change": "Language set to",
+  "alert_switch_offline": "Switching to Offline Builder. All AI features are disabled.",
+
+  "welcome_message": "Welcome! I'll help you create a professional resume. First, please select your profession from the options above.",
+  "profession_selected": "Great! You've selected {profession}. Let's start building your resume.",
+  "resume_complete": "All done! Sending your data to the AI for resume generation...",
+  "resume_success": "Success! Your resume is ready. Redirecting to your dashboard...",
+  "resume_fail": "Generation failed! Please try again or check your network connection.",
+  "question_fetch_fail": "Could not load questions. Please refresh and try again.",
+  "none": "None",
+
+  "professions": {
+    "construction": "Construction", "automotive": "Automotive", "plumbing": "Plumbing",
+    "electrical": "Electrical", "welding": "Welding", "carpentry": "Carpentry",
+    "masonry": "Masonry", "painting": "Painting", "mechanic": "Mechanic",
+    "driver": "Driver", "factory": "Factory", "farm": "Farm",
+    "security": "Security", "cleaning": "Cleaning", "cook": "Cook",
+    "tailor": "Tailor", "general": "General"
+  },
+
+  "questions": {
+    "full_name": "What is your full name?",
+    "phone": "What is your phone number?",
+    "email": "What is your email address?",
+    "address": "What is your complete address?",
+    "profession_type": "What type of work are you looking for?",
+    "experience_years": "How many years of work experience do you have?",
+    "skills": "What skills do you possess?",
+    "education": "What is your highest education level?",
+    "languages": "Which languages do you speak?",
+    "availability": "When can you start work?",
+    "work_preference": "What is your work preference?",
+    "salary_expectation": "What are your salary expectations?"
+  },
+
+  "options": {
+    "experience_years": ["0-1 years", "1-3 years", "3-5 years", "5-10 years", "10+ years"],
+    "education": ["High School", "Diploma", "Bachelor's Degree", "No Formal Education"],
+    "languages": ["English", "Hindi", "Regional Language", "Multiple Languages"],
+    "availability": ["Immediately", "Within 1 week", "Within 2 weeks", "Flexible"],
+    "work_preference": ["Full Time", "Part Time", "Contract Basis", "All Types"],
+    "salary_expectation": ["₹8,000-12,000/month", "₹12,000-18,000/month", "₹18,000-25,000/month", "₹25,000+/month", "Negotiable"]
+  }
+}

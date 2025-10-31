@@ -1,0 +1,92 @@
+{
+  "profession": "security",
+  "questions": [
+    {
+      "id": "full_name",
+      "question": "What is your full name?",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "phone",
+      "question": "What is your phone number?",
+      "type": "tel",
+      "required": true
+    },
+    {
+      "id": "email",
+      "question": "What is your email address?",
+      "type": "email",
+      "required": false
+    },
+    {
+      "id": "address",
+      "question": "What is your complete address?",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "experience_years",
+      "question": "How many years of security experience do you have?",
+      "type": "mcq",
+      "options": ["0-1 years", "1-3 years", "3-5 years", "5-10 years", "10+ years"],
+      "required": true
+    },
+    {
+      "id": "security_type",
+      "question": "What type of security work are you experienced in?",
+      "type": "mcq",
+      "options": ["Static Guarding", "Patrol Services", "Access Control", "All Types"],
+      "required": true
+    },
+    {
+      "id": "security_skills",
+      "question": "What security skills do you possess?",
+      "type": "multi-select",
+      "options": ["Surveillance", "Access Control", "Emergency Response", "All Skills"],
+      "required": true
+    },
+    {
+      "id": "certifications",
+      "question": "What security certifications do you hold?",
+      "type": "multi-select",
+      "options": ["Security Guard License", "First Aid/CPR", "None"],
+      "required": false
+    },
+    {
+      "id": "education",
+      "question": "What is your highest education level?",
+      "type": "mcq",
+      "options": ["High School", "Diploma", "No Formal Education"],
+      "required": true
+    },
+    {
+      "id": "languages",
+      "question": "Which languages do you speak?",
+      "type": "multi-select",
+      "options": ["English", "Hindi", "Regional Language", "Multiple Languages"],
+      "required": true
+    },
+    {
+      "id": "availability",
+      "question": "When can you start work?",
+      "type": "mcq",
+      "options": ["Immediately", "Within 1 week", "Within 2 weeks", "Flexible"],
+      "required": true
+    },
+    {
+      "id": "work_preference",
+      "question": "What is your work preference?",
+      "type": "multi-select",
+      "options": ["Full Time", "Part Time", "Night Shift", "All Types"],
+      "required": true
+    },
+    {
+      "id": "salary_expectation",
+      "question": "What are your salary expectations?",
+      "type": "mcq",
+      "options": ["₹12,000-18,000/month", "₹18,000-25,000/month", "₹25,000-35,000/month", "₹35,000+/month", "Negotiable"],
+      "required": false
+    }
+  ]
+}
