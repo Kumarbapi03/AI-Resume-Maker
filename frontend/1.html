@@ -1,0 +1,2711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code to Career - Resume Builder</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-orange: #2C3E50;
+            --secondary-blue: #1ABC9C;
+            --accent-yellow: #FFC000;
+            --background-light: #F7F7F7;
+            --text-dark:#2C3E50;
+            --text-light: #7F8C8D;
+            --success-green: #27AE60;
+            --warning-orange: #F39C12;
+            --error-red: #E74C3C;
+            --white: #FFFFFF;
+            --gray-light: #ECF0F1;
+            --gray-medium: #95A5A6;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+            --transition-fast: 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--background-light);
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .btn-primary {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-orange);
+            color: var(--white);
+            margin-top: 15px;
+        }
+
+        .btn-primary:hover {
+            background: #E65A28;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            padding: 12px 24px;
+            border: 2px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--white);
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
+        }
+
+        .btn-secondary.selected {
+            background: var(--primary-orange);
+            color: var(--white);
+            border-color: var(--primary-orange);
+        }
+
+        /* Chatbot Modal */
+        .modal {
+            display: flex;
+            position: static;
+            width: 100%;
+            height: 100vh;
+            background: var(--background-light);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chatbot-container {
+            width: 100%;
+            max-width: 100%;
+            height: 100vh;
+            max-height: 100vh;
+            background: var(--white);
+            border-radius: 0;
+            box-shadow: none;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-blue) 100%);
+            color: var(--white);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .chatbot-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+        }
+
+        .chatbot-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .language-select:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .language-select option {
+            background: var(--secondary-blue);
+            color: var(--white);
+        }
+
+        .icon-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: var(--transition-fast);
+        }
+
+        .icon-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--background-light);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--secondary-blue) 100%);
+            color: var(--white);
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .message.bot .message-content {
+            background: var(--white);
+            color: var(--text-dark);
+            border-bottom-left-radius: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .message.user .message-content {
+            background: var(--primary-orange);
+            color: var(--white);
+            border-bottom-right-radius: 4px;
+        }
+
+        .mcq-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 20px 10px 60px;
+            max-width: 80%;
+            justify-content: flex-start;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .mcq-options .btn-secondary {
+            margin: 0;
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+
+        .mcq-options .btn-primary {
+            margin: 10px 0 0 0;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gray-medium);
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            60%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+
+            30% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .chatbot-input {
+            padding: 20px;
+            background: var(--white);
+            border-top: 2px solid var(--gray-light);
+            flex-shrink: 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-orange) 0%, var(--secondary-blue) 100%);
+            width: 0;
+            transition: width 0.5s ease-out;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid var(--gray-light);
+            border-radius: 25px;
+            font-size: 15px;
+            font-family: 'Inter', Arial, sans-serif;
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .input-container input:focus {
+            border-color: var(--primary-orange);
+        }
+
+        .mic-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #667eea;
+            color: var(--white);
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            flex-shrink: 0;
+        }
+
+        .mic-button:hover {
+            background: #5568d3;
+        }
+
+        .mic-button.listening {
+            background: #E74C3C;
+            animation: pulse-mic 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-mic {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+            }
+
+            50% {
+                box-shadow: 0 0 0 15px rgba(231, 76, 60, 0);
+            }
+        }
+
+        .send-button {
+            padding: 12px 24px;
+            background: var(--primary-orange);
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-fast);
+        }
+
+        .send-button:hover {
+            background: #E65A28;
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Resume Preview Styles */
+        .resume-preview-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-light);
+        }
+
+        .resume-header {
+            text-align: left;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary-orange);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .resume-header .name-title h1 {
+            font-size: 28px;
+            color: var(--secondary-blue);
+            margin: 0 0 5px 0;
+        }
+
+        .resume-header .name-title h2 {
+            font-size: 20px;
+            color: var(--primary-orange);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .resume-header .contact-info {
+            text-align: right;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .resume-header .contact-info p {
+            margin: 4px 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .resume-section {
+            margin-bottom: 20px;
+        }
+
+        .resume-section h3 {
+            font-size: 18px;
+            color: var(--secondary-blue);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .resume-pills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .resume-pill {
+            background: var(--gray-light);
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .resume-pill.license {
+            background: var(--success-green);
+            color: white;
+        }
+
+        .resume-pill.lang {
+            background: var(--secondary-blue);
+            color: white;
+        }
+
+        .resume-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .resume-info-box {
+            background: #F9F9F9;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .resume-info-box strong {
+            display: block;
+            font-size: 14px;
+            color: var(--gray-medium);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .resume-info-box p {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .resume-work-item {
+            margin-bottom: 15px;
+        }
+
+        .resume-work-item p {
+            margin: 0;
+        }
+
+        .resume-work-item strong {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .resume-work-item .work-details {
+            font-size: 14px;
+            color: var(--gray-medium);
+            margin-bottom: 5px;
+        }
+
+        .resume-work-item .work-proud {
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .resume-buttons {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Template Selection Styles */
+        .template-selection-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .template-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .template-option {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: 2px solid transparent;
+        }
+
+        .template-option:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .template-option.selected {
+            border-color: var(--primary-orange);
+        }
+
+        .template-preview {
+            height: 300px;
+            background: var(--background-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .template-preview-content {
+            width: 80%;
+            height: 80%;
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .template-preview-line {
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 4px;
+        }
+
+        .template-preview-line.short {
+            width: 60%;
+        }
+
+        .template-preview-line.medium {
+            width: 80%;
+        }
+
+        .template-preview-line.long {
+            width: 100%;
+        }
+
+        .template-info {
+            padding: 15px;
+        }
+
+        .template-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .template-description {
+            font-size: 14px;
+            color: var(--gray-medium);
+        }
+
+        /* Template Preview Styles */
+        .template-preview-1 .template-preview-line:nth-child(1) {
+            background: var(--secondary-blue);
+            height: 12px;
+        }
+
+        .template-preview-1 .template-preview-line:nth-child(2) {
+            background: var(--primary-orange);
+            height: 8px;
+        }
+
+        .template-preview-1 .template-preview-line:nth-child(3) {
+            background: var(--gray-light);
+        }
+
+        .template-preview-1 .template-preview-line:nth-child(4) {
+            background: var(--gray-light);
+        }
+
+        .template-preview-1 .template-preview-line:nth-child(5) {
+            background: var(--gray-light);
+            height: 6px;
+        }
+
+        .template-preview-2 .template-preview-line:nth-child(1) {
+            background: var(--primary-orange);
+            height: 10px;
+        }
+
+        .template-preview-2 .template-preview-line:nth-child(2) {
+            background: var(--secondary-blue);
+            height: 10px;
+        }
+
+        .template-preview-2 .template-preview-line:nth-child(3) {
+            background: var(--gray-light);
+            height: 6px;
+        }
+
+        .template-preview-2 .template-preview-line:nth-child(4) {
+            background: var(--gray-light);
+            height: 6px;
+        }
+
+        .template-preview-2 .template-preview-line:nth-child(5) {
+            background: var(--gray-light);
+            height: 6px;
+        }
+
+        .template-preview-3 .template-preview-line:nth-child(1) {
+            background: var(--success-green);
+            height: 12px;
+        }
+
+        .template-preview-3 .template-preview-line:nth-child(2) {
+            background: var(--secondary-blue);
+            height: 8px;
+        }
+
+        .template-preview-3 .template-preview-line:nth-child(3) {
+            background: var(--gray-light);
+        }
+
+        .template-preview-3 .template-preview-line:nth-child(4) {
+            background: var(--gray-light);
+        }
+
+        .template-preview-3 .template-preview-line:nth-child(5) {
+            background: var(--gray-light);
+            height: 6px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chatbot-container {
+                width: 100%;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .mcq-options {
+                max-width: 100%;
+                padding-left: 60px;
+            }
+
+            .resume-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .resume-header .contact-info {
+                text-align: left;
+            }
+
+            .resume-header .contact-info p {
+                justify-content: flex-start;
+            }
+
+            .resume-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .template-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="chatbotModal" class="modal">
+        <div class="chatbot-container">
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <i class="fas fa-robot"></i>
+                    <span>Resume Builder Assistant</span>
+                </div>
+                <div class="chatbot-controls">
+                    <select id="languageSelect" class="language-select">
+                        <option value="en-IN">English</option>
+                        <option value="hi-IN">हिन्दी (Hindi)</option>
+                        <option value="bn-IN">বাংলা (Bengali)</option>
+                        <option value="ta-IN">தமிழ் (Tamil)</option>
+                        <option value="te-IN">తెలుగు (Telugu)</option>
+                        <option value="mr-IN">मराठी (Marathi)</option>
+                    </select>
+                    <button id="volumeToggle" class="icon-button" title="Toggle Voice">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chatbot-messages" id="chatMessages"></div>
+            <div class="chatbot-input">
+                <div id="progressBar" class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Question 0 of 0</div>
+                <div class="input-container">
+                    <input type="text" id="userInput" placeholder="Type your answer..." autocomplete="off">
+                    <button id="micButton" class="mic-button" title="Voice Input">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button id="sendButton" class="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // App State
+        const appState = {
+            currentQuestionIndex: -1,
+            userResponses: {},
+            selectedLanguage: 'en-IN',
+            speechEnabled: true,
+            isGenerating: false,
+            conversationActive: false,
+            isListening: false,
+            selectedTemplate: null
+        };
+
+        // Translation Dataset
+        const formOptions = {
+            workType: {
+                en: ["Electrician", "Plumber", "Welder", "Driver", "Carpenter", "Mason", "Painter", "Machine Operator", "Helper / Labour", "Other"],
+                hi: ["बिजली मिस्त्री", "प्लम्बर", "वेल्डर", "चालक", "बढ़ई", "राज मिस्त्री", "पेंटर", "मशीन ऑपरेटर", "हेल्पर / मजदूर", "अन्य"],
+                mr: ["वीजमिस्त्री", "नळदुरुस्ती कामगार", "वेल्डर", "चालक", "सुतार", "विस्तार", "रंगारी", "मशीन ऑपरेटर", "हेल्पर / मजदूर", "इतर"],
+                ta: ["மின்சார திறனாளர்", "குழாய் திறனாளர்", "வெல்டர்", "ஓட்டுநர்", "தச்சர்", "கட்டிடக் கலைஞர்", "ஓவியர்", "இயந்திர ஆபரேட்டர்", "உதவியாளர் / தொழிலாளி", "வேறு"],
+                te: ["ఎలక్ట్రీషియన్", "ప్లంబర్", "వెల్డర్", "డ్రైవర్", "వడ్రంగి", "గోడలు కట్టే వ్యక్తి", "పెయింటర్", "మెషిన్ ఆపరేటర్", "సహాయకుడు / శ్రామికుడు", "ఇతర"],
+                bn: ["ইলেকট্রিশিয়ান", "প্লাম্বার", "ওয়েল্ডার", "ড্রাইভার", "ছুতোর", "রাজমিস্ত্রি", "চিত্রশিল্পী", "মেশিন অপারেটর", "সহায়ক / শ্রমিক", "অন্যান্য"]
+            },
+
+            experience: {
+                en: ["Less than 1 year", "1–3 years", "3–5 years", "More than 5 years"],
+                hi: ["1 साल से कम", "1–3 साल", "3–5 साल", "5 साल से अधिक"],
+                mr: ["1 वर्षापेक्षा कम", "1–3 वर्षे", "3–5 वर्षे", "5 वर्षांपेक्षा जास्त"],
+                ta: ["1 வருடத்திற்கும் குறைவாக", "1–3 ஆண்டுகள்", "3–5 ஆண்டுகள்", "5 ஆண்டுகளுக்கும் மேலாக"],
+                te: ["1 సంవత్సరం కంటే తక్కువ", "1–3 సంవత్సరాలు", "3–5 సంవత్సరాలు", "5 సంవత్సరాల కంటే ఎక్కువ"],
+                bn: ["1 বছরের কম", "1–3 বছর", "3–5 বছর", "5 বছরের বেশি"]
+            },
+
+            skills: {
+                en: ["Wiring / Fitting", "Welding / Cutting", "Plumbing Repair", "Wall Painting", "Machine Operation", "Driving (Car/Truck)", "Tile / Masonry work", "Construction site work", "Equipment Maintenance", "Loading / Unloading", "Others"],
+                hi: ["वायरिंग / फिटिंग", "वेल्डिंग / कटिंग", "प्लंबिंग रिपेयर", "दीवार पेंटिंग", "मशीन ऑपरेशन", "ड्राइविंग (कार/ट्रक)", "टाइल / राजगीरी का काम", "निर्माण स्थल का काम", "उपकरण रखरखाव", "लोडिंग / अनलोडिंग", "अन्य"],
+                mr: ["वायरिंग / फिटिंग", "वेल्डिंग / कटिंग", "नळदुरुस्ती दुरुस्ती", "भिंत रंगकाम", "मशीन ऑपरेशन", "ड्रायव्हिंग (कार/ट्रक)", "टाइल / विस्तार काम", "बांधकाम साइट काम", "उपकरणे देखभाल", "लोडिंग / अनलोडिंग", "इतर"],
+                ta: ["வயரிங் / ஃபிட்டிங்", "வெல்டிங் / கட்டிங்", "குழாய் பழுதுபார்ப்பு", "சுவர் ஓவியம்", "இயந்திர செயல்பாடு", "ஓட்டுதல் (கார்/டிரக்)", "ஓடு / கொத்துவேலை", "கட்டுமான தள வேலை", "உபகரண பராமரிப்பு", "ஏற்றுதல் / இறக்குதல்", "மற்றவை"],
+                te: ["వైరింగ్ / ఫిట్టింగ్", "వెల్డింగ్ / కట్టింగ్", "ప్లంబింగ్ రిపేర్", "వాల్ పెయింటింగ్", "మెషిన్ ఆపరేషన్", "డ్రైవింగ్ (కారు/ట్రక్)", "టైల్ / మాసన్రీ పని", "కన్స్ట్రక్షన్ సైట్ పని", "ఉపకరణాల నిర్వహణ", "లోడింగ్ / అన్లోడింగ్", "ఇతరాలు"],
+                bn: ["ওয়্যারিং / ফিটিং", "ওয়েল্ডিং / কাটিং", "প্লাম্বিং মেরামত", "ওয়াল পেইন্টিং", "মেশিন অপারেশন", "ড্রাইভিং (গাড়ি/ট্রাক)", "টাইল / রাজমিস্ত্রির কাজ", "কনস্ট্রাকশন সাইট কাজ", "সরঞ্জাম রক্ষণাবেক্ষণ", "লোডিং / আনলোডিং", "অন্যান্য"]
+            },
+
+            skillLevel: {
+                en: ["Beginner", "Skilled", "Expert"],
+                hi: ["शुरुआती", "कुशल", "विशेषज्ञ"],
+                mr: ["नवशिक्या", "कुशल", "तज्ञ"],
+                ta: ["தொடக்கநிலை", "திறமையான", "நிபுணர்"],
+                te: ["ప్రారంభ", "నైపుణ్యం", "నిపుణుడు"],
+                bn: ["শিক্ষানবিস", "দক্ষ", "বিশেষজ্ঞ"]
+            },
+
+            tools: {
+                en: ["Drilling Machine", "Welding Gun", "Multimeter", "Forklift", "Crane", "Cutting Machine", "Grinder", "Basic Hand Tools", "None of these", "Other"],
+                hi: ["ड्रिलिंग मशीन", "वेल्डिंग गन", "मल्टीमीटर", "फोर्कलिफ्ट", "क्रेन", "कटिंग मशीन", "ग्राइंडर", "बेसिक हैंड टूल्स", "इनमें से कोई नहीं", "अन्य"],
+                mr: ["ड्रिलिंग मशीन", "वेल्डिंग गन", "मल्टीमीटर", "फोर्कलिफ्ट", "क्रेन", "कटिंग मशीन", "ग्राइंडर", "मूल हाताची साधने", "यापैकी काहीही नाही", "इतर"],
+                ta: ["துரப்பண இயந்திரம்", "வெல்டிங் துப்பாக்கி", "மல்டிமீட்டர்", "போர்க்லிஃப்ட்", "கிரேன்", "வெட்டும் இயந்திரம்", "அரைப்பான்", "அடிப்படை கைக் கருவிகள்", "இவற்றில் எதுவும் இல்லை", "வேறு"],
+                te: ["డ్రిల్లింగ్ మెషిన్", "వెల్డింగ్ గన్", "మల్టీమీటర్", "ఫోర్క్లిఫ్ట్", "క్రేన్", "కట్టింగ్ మెషిన్", "గ్రైండర్", "బేసిక్ హ్యాండ్ టూల్స్", "వీటిలో ఏదీ కాదు", "ఇతర"],
+                bn: ["ড্রিলিং মেশিন", "ওয়েল্ডিং বন্দুক", "মাল্টিমিটার", "ফর্কলিফ্ট", "ক্রেন", "কাটিং মেশিন", "গ্রাইন্ডার", "বেসিক হ্যান্ড টুলস", "এগুলোর কোনটিই নয়", "অন্যান্য"]
+            },
+
+            previousWork: {
+                en: ["Construction site", "Factory / Industry", "Private company", "Individual houses / small shops", "Government project", "Other"],
+                hi: ["निर्माण स्थल", "फैक्ट्री / उद्योग", "निजी कंपनी", "व्यक्तिगत घर / छोटी दुकानें", "सरकारी परियोजना", "अन्य"],
+                mr: ["बांधकाम साइट", "फॅक्टरी / उद्योग", "खाजगी कंपनी", "वैयक्तिक घरे / लहान दुकान", "सरकारी प्रकल्प", "इतर"],
+                ta: ["கட்டுமான தளம்", "தொழிற்சாலை / தொழில்", "தனியார் நிறுவனம்", "தனிப்பட்ட வீடுகள் / சிறிய கடைகள்", "அரசு திட்டம்", "வேறு"],
+                te: ["కన్స్ట్రక్షన్ సైట్", "ఫ్యాక్టరీ / ఇండస్ట్రీ", "ప్రైవేట్ కంపెనీ", "వ్యక్తిగత ఇళ్లు / చిన్న దుకాణాలు", "గవర్నమెంట్ ప్రాజెక్ట్", "ఇతర"],
+                bn: ["কনস্ট্রাকশন সাইট", "কারখানা / শিল্প", "প্রাইভেট কোম্পানি", "ব্যক্তিগত বাড়ি / ছোট দোকান", "সরকারি প্রকল্প", "অন্যান্য"]
+            },
+
+            workDuration: {
+                en: ["Less than 6 months", "6 months – 1 year", "1–3 years", "More than 3 years"],
+                hi: ["6 महीने से कम", "6 महीने – 1 साल", "1–3 साल", "3 साल से अधिक"],
+                mr: ["6 महिन्यांपेक्षा कमी", "6 महिने – 1 वर्ष", "1–3 वर्षे", "3 वर्षांपेक्षा जास्त"],
+                ta: ["6 மாதங்களுக்கும் குறைவாக", "6 மாதங்கள் – 1 வருடம்", "1–3 ஆண்டுகள்", "3 ஆண்டுகளுக்கும் மேலாக"],
+                te: ["6 నెలల కంటే తక్కువ", "6 నెలలు – 1 సంవత్సరం", "1–3 సంవత్సరాలు", "3 సంవత్సరాల కంటే ఎక్కువ"],
+                bn: ["6 মাসের কম", "6 মাস – 1 বছর", "1–3 বছর", "3 বছরের বেশি"]
+            },
+
+            workType: {
+                en: ["Wiring / Fitting", "Maintenance", "Repair", "Installation", "Driving / Transport", "Construction", "Other"],
+                hi: ["वायरिंग / फिटिंग", "रखरखाव", "मरम्मत", "इंस्टालेशन", "ड्राइविंग / परिवहन", "निर्माण", "अन्य"],
+                mr: ["वायरिंग / फिटिंग", "देखभाल", "दुरुस्ती", "स्थापना", "ड्रायव्हिंग / वाहतूक", "बांधकाम", "इतर"],
+                ta: ["வயரிங் / ஃபிட்டிங்", "பராமரிப்பு", "பழுதுபார்க்கும்", "நிறுவல்", "ஓட்டுதல் / போக்குவரத்து", "கட்டுமானம்", "வேறு"],
+                te: ["వైరింగ్ / ఫిట్టింగ్", "నిర్వహణ", "రిపేర్", "ఇన్స్టలేషన్", "డ్రైవింగ్ / ట్రాన్స్పోర్ట్", "కన్స్ట్రక్షన్", "ఇతర"],
+                bn: ["ওয়্যারিং / ফিটিং", "রক্ষণাবেক্ষণ", "মেরামত", "ইনস্টলেশন", "ড্রাইভিং / পরিবহন", "কনস্ট্রাকশন", "অন্যান্য"]
+            },
+
+            proudWork: {
+                en: ["Finished big project", "Worked without complaints", "Led a small team", "Solved a big problem", "Other"],
+                hi: ["बड़ी परियोजना पूरी की", "बिना शिकायत के काम किया", "एक छोटी टीम का नेतृत्व किया", "एक बड़ी समस्या का समाधान किया", "अन्य"],
+                mr: ["मोठा प्रकल्प पूर्ण केला", "तक्रार न करता काम केले", "एका लहान संघाचे नेतृत्व केले", "मोठ्या समस्येचे निराकरण केले", "इतर"],
+                ta: ["பெரிய திட்டத்தை முடித்தார்", "புகார்கள் இல்லாமல் வேலை செய்தார்", "ஒரு சிறிய குழுவை வழிநடத்தினார்", "ஒரு பெரிய பிரச்சினையை தீர்த்தார்", "வேறு"],
+                te: ["పెద్ద ప్రాజెక్ట్ పూర్తి చేశారు", "ఫిర్యాదులు లేకుండా పని చేశారు", "ఒక చిన్న టీమ్కు నాయకత్వం వహించారు", "ఒక పెద్ద సమస్యను పరిష్కరించారు", "ఇతర"],
+                bn: ["বড় প্রজেক্ট শেষ করেছেন", "অভিযোগ ছাড়াই কাজ করেছেন", "একটি ছোট দলের নেতৃত্ব দিয়েছেন", "একটি বড় সমস্যার সমাধান করেছেন", "অন্যান্য"]
+            },
+
+            certificates: {
+                en: ["ITI certificate", "Driving License", "Safety Training certificate", "Trade License", "None"],
+                hi: ["आईटीआई सर्टिफिकेट", "ड्राइविंग लाइसेंस", "सुरक्षा प्रशिक्षण प्रमाणपत्र", "व्यापार लाइसेंस", "कोई नहीं"],
+                mr: ["आयटीआय प्रमाणपत्र", "ड्रायव्हिंग लायसन्स", "सुरक्षा प्रशिक्षण प्रमाणपत्र", "व्यापार परवाना", "काहीही नाही"],
+                ta: ["ஐடிஐ சான்றிதழ்", "ஓட்டுநர் உரிமம்", "பாதுகாப்பு பயிற்சி சான்றிதழ்", "வணிக உரிமம்", "எதுவும் இல்லை"],
+                te: ["ఐటీఐ సర్టిఫికేట్", "డ్రైవింగ్ లైసెన్స్", "భద్రతా శిక్షణ సర్టిఫికేట్", "ట్రేడ్ లైసెన్స్", "ఏదీ లేదు"],
+                bn: ["আইটিআই সার্টিফিকেট", "ড্রাইভিং লাইসেন্স", "সেফটি ট্রেনিং সার্টিফিকেট", "ট্রেড লাইসেন্স", "কোনটাই না"]
+            },
+
+            languages: {
+                en: ["Hindi", "English (Basic)", "Telugu", "Tamil", "Kannada", "Bengali", "Marathi", "Other"],
+                hi: ["हिन्दी", "अंग्रेजी (बेसिक)", "तेलुगू", "तमिल", "कन्नड़", "बंगाली", "मराठी", "अन्य"],
+                mr: ["हिन्दी", "इंग्रजी (बेसिक)", "तेलुगू", "तमिल", "कन्नड", "बंगाली", "मराठी", "इतर"],
+                ta: ["இந்தி", "ஆங்கிலம் (அடிப்படை)", "தெலுங்கு", "தமிழ்", "கன்னடம்", "வங்காளம்", "மராத்தி", "வேறு"],
+                te: ["హిందీ", "ఇంగ్లీష్ (బేసిక్)", "తెలుగు", "తమిళం", "కన్నడ", "బెంగాలీ", "మరాఠీ", "ఇతర"],
+                bn: ["হিন্দি", "ইংরেজি (বেসিক)", "তেলুগু", "তামিল", "কন্নড়", "বাংলা", "মারাঠি", "অন্যান্য"]
+            },
+
+            contact: {
+                en: ["Call", "WhatsApp", "Either"],
+                hi: ["कॉल", "व्हाट्सएप", "कोई भी"],
+                mr: ["कॉल", "व्हाट्सएप", "एकतर"],
+                ta: ["அழைப்பு", "வாட்ஸ்அப்", "எதுவாகிலும்"],
+                te: ["కాల్", "వాట్సాప్", "ఏదైనా"],
+                bn: ["কল", "হোয়াটসঅ্যাপ", "যেকোনো একটি"]
+            },
+
+            yesNo: {
+                en: ["Yes", "No"],
+                hi: ["हाँ", "नहीं"],
+                mr: ["होय", "नाही"],
+                ta: ["ஆம்", "இல்லை"],
+                te: ["అవును", "కాదు"],
+                bn: ["হ্যাঁ", "না"]
+            },
+
+            jobType: {
+                en: ["Full-time", "Contract work", "Part-time"],
+                hi: ["फुल-टाइम", "कॉन्ट्रैक्ट वर्क", "पार्ट-टाइम"],
+                mr: ["फुल-टाइम", "कॉन्ट्रॅक्ट वर्क", "पार्ट-टाइम"],
+                ta: ["முழுநேரம்", "காண்ட்ராக்ட் வேலை", "பகுதி நேரம்"],
+                te: ["ఫుల్-టైమ్", "కాంట్రాక్ట్ వర్క్", "పార్ట్-టైమ్"],
+                bn: ["ফুল-টাইম", "কন্ট্রাক্ট কাজ", "পার্ট-টাইম"]
+            },
+
+            joinTime: {
+                en: ["Immediately", "Within 1 week", "Within 1 month"],
+                hi: ["तुरंत", "1 हफ्ते के अंदर", "1 महीने के अंदर"],
+                mr: ["ताबडतोब", "1 आठवड्याच्या आत", "1 महिन्याच्या आत"],
+                ta: ["உடனடியாக", "1 வாரத்திற்குள்", "1 மாதத்திற்குள்"],
+                te: ["వెంటనే", "1 వారంలో", "1 నెలలో"],
+                bn: ["অবিলম্বে", "1 সপ্তাহের মধ্যে", "1 মাসের মধ্যে"]
+            },
+
+            resumeLang: {
+                en: ["English", "Hindi", "Telugu", "Tamil", "Bengali", "Marathi"],
+                hi: ["अंग्रेजी", "हिन्दी", "तेलुगू", "तमिल", "बंगाली", "मराठी"],
+                mr: ["इंग्रजी", "हिन्दी", "तेलुगू", "तमिल", "बंगाली", "मराठी"],
+                ta: ["ஆங்கிலம்", "இந்தி", "தெலுங்கு", "தமிழ்", "வங்காளம்", "மராத்தி"],
+                te: ["ఇంగ్లీష్", "హిందీ", "తెలుగు", "తమిళం", "బెంగాలీ", "మరాఠీ"],
+                bn: ["ইংরেজি", "হিন্দি", "তেলুগু", "তামিল", "বাংলা", "মারাঠি"]
+            }
+        };
+
+        // Translation function to convert user responses
+        function translateResponse(response, fromLang, toLang) {
+            if (!response || fromLang === toLang) return response;
+
+            // Handle comma-separated values (for multi-select options)
+            if (response.includes(',')) {
+                return response.split(',').map(item =>
+                    translateSingleValue(item.trim(), fromLang, toLang)
+                ).join(', ');
+            }
+
+            return translateSingleValue(response, fromLang, toLang);
+        }
+
+        function translateSingleValue(value, fromLang, toLang) {
+            // Extract language codes (e.g., 'en-IN' -> 'en')
+            const fromCode = fromLang.split('-')[0];
+            const toCode = toLang.split('-')[0];
+
+            // Skip translation if we don't have the target language
+            if (!formOptions.workType[toCode]) return value;
+
+            // Search through all form options to find a match
+            for (const [category, translations] of Object.entries(formOptions)) {
+                if (translations[fromCode] && translations[toCode]) {
+                    const fromIndex = translations[fromCode].findIndex(item =>
+                        item.toLowerCase() === value.toLowerCase()
+                    );
+
+                    if (fromIndex !== -1 && translations[toCode][fromIndex]) {
+                        return translations[toCode][fromIndex];
+                    }
+                }
+            }
+
+            // Return original value if no translation found
+            return value;
+        }
+
+        // Initial Language Question
+        const initialLanguageQuestion = {
+            text: "Welcome! Please select your language. / स्वागत! कृपया अपनी भाषा चुनें।",
+            type: 'mcq',
+            field: 'conversation_language',
+            options: [
+                { text: 'English', value: 'en-IN' },
+                { text: 'हिन्दी (Hindi)', value: 'hi-IN' },
+                { text: 'বাংলা (Bengali)', value: 'bn-IN' },
+                { text: 'தமிழ் (Tamil)', value: 'ta-IN' },
+                { text: 'తెలుగు (Telugu)', value: 'te-IN' },
+                { text: 'मराठी (Marathi)', value: 'mr-IN' }
+            ]
+        };
+
+        // Welcome Message Translations
+        const welcomeTranslations = {
+            'en-IN': [
+                '🙏 Namaste! Welcome to the Resume Builder!',
+                "I'll ask some simple questions. You can type, click buttons, or use the mic 🎤 to answer."
+            ],
+            'hi-IN': [
+                '🙏 नमस्ते! रिज्यूमे बिल्डर में आपका स्वागत है!',
+                "मैं कुछ आसान सवाल पूछूंगा। आप टाइप कर सकते हैं, बटन क्लिक कर सकते हैं, या जवाब देने के लिए माइक 🎤 का इस्तेमाल कर सकते हैं।"
+            ],
+            'bn-IN': [
+                '🙏 নমস্কার! রেজুমে বিল্ডারে আপনাকে স্বাগতম!',
+                "আমি কিছু সহজ প্রশ্ন করব। আপনি টাইপ করতে পারেন, বোতামে ক্লিক করতে পারেন, বা উত্তর দিতে মাইক 🎤 ব্যবহার করতে পারেন।"
+            ],
+            'ta-IN': [
+                '🙏 வணக்கம்! ரெஸ்யூம் பில்டருக்கு வரவேற்கிறோம்!',
+                "நான் சில எளிய கேள்விகளைக் கேட்பேன்। நீங்கள் தட்டச்சு செய்யலாம், பொத்தான்களைக் கிளிக் செய்யலாம், அல்லது பதிலளிக்க மைக் 🎤 பயன்படுத்தலாம்।"
+            ],
+            'te-IN': [
+                '🙏 నమస్కారం! రెజ్యూమ్ బిల్డర్‌కు స్వాగతం!',
+                "నేను కొన్ని సులభమైన ప్రశ్నలు అడుగుతాను। మీరు టైప్ చేయవచ్చు, బటన్లను క్లిక్ చేయవచ్చు, లేదా సమాధానం ఇవ్వడానికి మైక్ 🎤 ఉపయోగించవచ్చు।"
+            ],
+            'mr-IN': [
+                '🙏 नमस्कार! रेझ्युमे बिल्डरमध्ये आपले स्वागत आहे!',
+                "मी काही सोपे प्रश्न विचारेन। तुम्ही टाइप करू शकता, बटणावर क्लिक करू शकता, किंवा उत्तर देण्यासाठी माइक 🎤 वापरू शकता।"
+            ]
+        };
+
+        // Resume Language Options
+        const resumeLanguageOptions = [
+            { text: 'English', value: 'en-IN' },
+            { text: 'हिन्दी (Hindi)', value: 'hi-IN' },
+            { text: 'বাংলা (Bengali)', value: 'bn-IN' },
+            { text: 'தமிழ் (Tamil)', value: 'ta-IN' },
+            { text: 'తెలుగు (Telugu)', value: 'te-IN' },
+            { text: 'मराठी (Marathi)', value: 'mr-IN' }
+        ];
+
+        // Template Options
+        const templateOptions = [
+            {
+                id: 'professional',
+                name: 'Professional',
+                description: 'Clean, traditional layout perfect for formal job applications',
+                previewClass: 'template-preview-1'
+            },
+            {
+                id: 'modern',
+                name: 'Modern',
+                description: 'Contemporary design with a fresh, clean look',
+                previewClass: 'template-preview-2'
+            },
+            {
+                id: 'creative',
+                name: 'Creative',
+                description: 'Unique layout with visual elements to stand out',
+                previewClass: 'template-preview-3'
+            }
+        ];
+
+        // Question Sets
+        const questionSets = {
+            'en-IN': [
+                // 1. Personal Details
+                { text: "Namaste! I'm your Resume Assistant. Let's create your professional resume. What is your full name?", type: 'text', field: 'name' },
+                { text: 'What is your age?', type: 'mcq', field: 'age', options: [{ text: 'Under 20' }, { text: '20-30' }, { text: '30-40' }, { text: 'Above 40' }] },
+                { text: 'What is your phone number / WhatsApp number?', type: 'text', field: 'phone' },
+                { text: 'Which city or area do you live in?', type: 'text', field: 'location' },
+                // 2. Work Type & Experience
+                { text: 'What type of work do you do?', type: 'mcq', field: 'job_title', options: formOptions.workType.en.map(text => ({ text })) },
+                { text: 'How many years of experience do you have?', type: 'mcq', field: 'experience_years', options: formOptions.experience.en.map(text => ({ text })) },
+                // 3. Skills
+                { text: 'Select your main skills (you can choose more than one):', type: 'mcq-multi', field: 'main_skills', options: formOptions.skills.en.map(text => ({ text })) },
+                { text: 'How good are you in these skills?', type: 'mcq', field: 'skill_level', options: formOptions.skillLevel.en.map(text => ({ text })) },
+                // 4. Tools or Machines
+                { text: 'Which tools or machines can you handle? (Select all that apply)', type: 'mcq-multi', field: 'tools', options: formOptions.tools.en.map(text => ({ text })) },
+                // 5. Work Experience
+                { text: 'Where have you worked before?', type: 'mcq', field: 'work_place', options: formOptions.previousWork.en.map(text => ({ text })) },
+                { text: 'What kind of work did you do there? (Select main work)', type: 'mcq', field: 'work_tasks', options: formOptions.workType.en.map(text => ({ text })) },
+                { text: 'What was your best or proudest work?', type: 'mcq', field: 'proud_work', options: formOptions.proudWork.en.map(text => ({ text })) },
+                // 6. Certificates / Licenses
+                { text: 'Do you have any of the following? (Select all that apply)', type: 'mcq-multi', field: 'certificates', options: formOptions.certificates.en.map(text => ({ text })) },
+                // 7. Languages & Communication
+                { text: 'Which languages can you speak? (Select all that apply)', type: 'mcq-multi', field: 'languages', options: formOptions.languages.en.map(text => ({ text })) },
+                { text: 'Preferred contact way:', type: 'mcq', field: 'contact_pref', options: formOptions.contact.en.map(text => ({ text })) },
+                // 8. Work Preferences
+                { text: 'Are you ready to work outside your city?', type: 'mcq', field: 'relocate', options: formOptions.yesNo.en.map(text => ({ text })) },
+                { text: 'Type of job you want:', type: 'mcq', field: 'job_type', options: formOptions.jobType.en.map(text => ({ text })) },
+                { text: 'When can you join work?', type: 'mcq', field: 'join_date', options: formOptions.joinTime.en.map(text => ({ text })) },
+                // Resume Language Question
+                { text: 'In which language do you want your resume?', type: 'mcq', field: 'resume_language', options: resumeLanguageOptions },
+                // Final
+                { text: "Perfect! I have all the information I need. Let me create your professional resume...", type: 'final', field: 'completion' }
+            ],
+            'hi-IN': [
+                // 1. Personal Details
+                { text: "नमस्ते! मैं आपका रिज्यूमे सहायक हूं। आपका पूरा नाम क्या है?", type: 'text', field: 'name' },
+                { text: 'आपकी उम्र क्या है?', type: 'mcq', field: 'age', options: [{ text: '20 से कम' }, { text: '20-30' }, { text: '30-40' }, { text: '40 से अधिक' }] },
+                { text: 'आपका फ़ोन / व्हाट्सएप नंबर क्या है?', type: 'text', field: 'phone' },
+                { text: 'आप किस शहर या इलाके में रहते हैं?', type: 'text', field: 'location' },
+                // 2. Work Type & Experience
+                { text: 'आप किस प्रकार का काम करते हैं?', type: 'mcq', field: 'job_title', options: formOptions.workType.hi.map(text => ({ text })) },
+                { text: 'आपको कितने साल का अनुभव है?', type: 'mcq', field: 'experience_years', options: formOptions.experience.hi.map(text => ({ text })) },
+                // 3. Skills
+                { text: 'अपने मुख्य कौशल चुनें (एक से अधिक चुन सकते हैं):', type: 'mcq-multi', field: 'main_skills', options: formOptions.skills.hi.map(text => ({ text })) },
+                { text: 'आप इन कौशलों में कितने अच्छे हैं?', type: 'mcq', field: 'skill_level', options: formOptions.skillLevel.hi.map(text => ({ text })) },
+                // 4. Tools or Machines
+                { text: 'आप कौन से उपकरण या मशीनें संभाल सकते हैं? (सभी चुनें जो लागू हों)', type: 'mcq-multi', field: 'tools', options: formOptions.tools.hi.map(text => ({ text })) },
+                // 5. Work Experience
+                { text: 'आपने पहले कहाँ काम किया है?', type: 'mcq', field: 'work_place', options: formOptions.previousWork.hi.map(text => ({ text })) },
+                { text: 'आपने वहां किस तरह का काम किया? (मुख्य काम चुनें)', type: 'mcq', field: 'work_tasks', options: formOptions.workType.hi.map(text => ({ text })) },
+                { text: 'आपका सबसे अच्छा या गर्व का काम क्या था?', type: 'mcq', field: 'proud_work', options: formOptions.proudWork.hi.map(text => ({ text })) },
+                // 6. Certificates / Licenses
+                { text: 'क्या आपके पास इनमें से कुछ है? (सभी चुनें जो लागू हों)', type: 'mcq-multi', field: 'certificates', options: formOptions.certificates.hi.map(text => ({ text })) },
+                // 7. Languages & Communication
+                { text: 'आप कौन सी भाषाएं बोल सकते हैं? (सभी चुनें जो लागू हों)', type: 'mcq-multi', field: 'languages', options: formOptions.languages.hi.map(text => ({ text })) },
+                { text: 'पसंदीदा संपर्क तरीका:', type: 'mcq', field: 'contact_pref', options: formOptions.contact.hi.map(text => ({ text })) },
+                // 8. Work Preferences
+                { text: 'क्या आप अपने शहर से बाहर काम करने के लिए तैयार हैं?', type: 'mcq', field: 'relocate', options: formOptions.yesNo.hi.map(text => ({ text })) },
+                { text: 'आप किस प्रकार की नौकरी चाहते हैं:', type: 'mcq', field: 'job_type', options: formOptions.jobType.hi.map(text => ({ text })) },
+                { text: 'आप काम कब ज्वाइन कर सकते हैं?', type: 'mcq', field: 'join_date', options: formOptions.joinTime.hi.map(text => ({ text })) },
+                // Resume Language Question
+                { text: 'आप अपना रिज्यूमे किस भाषा में चाहते हैं?', type: 'mcq', field: 'resume_language', options: resumeLanguageOptions },
+                // Final
+                { text: "बढ़िया! मेरे पास सभी जानकारी है। मैं आपका पेशेवर रिज्यूमे बना रहा हूं...", type: 'final', field: 'completion' }
+            ],
+            'bn-IN': [
+                // 1. Personal Details
+                { text: "নমস্কার! আমি আপনার রেজুমে সহায়ক। আপনার পুরো নাম কী?", type: 'text', field: 'name' },
+                { text: 'আপনার বয়স কত?', type: 'mcq', field: 'age', options: [{ text: '২০ এর কম' }, { text: '২০-৩০' }, { text: '৩০-৪০' }, { text: '৪০ এর বেশি' }] },
+                { text: 'আপনার ফোন / হোয়াটসঅ্যাপ নম্বর কী?', type: 'text', field: 'phone' },
+                { text: 'আপনি কোন শহরে বা এলাকায় থাকেন?', type: 'text', field: 'location' },
+                // 2. Work Type & Experience
+                { text: 'আপনি কী ধরনের কাজ করেন?', type: 'mcq', field: 'job_title', options: formOptions.workType.bn.map(text => ({ text })) },
+                { text: 'আপনার কত বছরের অভিজ্ঞতা আছে?', type: 'mcq', field: 'experience_years', options: formOptions.experience.bn.map(text => ({ text })) },
+                // 3. Skills
+                { text: 'আপনার প্রধান দক্ষতাগুলি নির্বাচন করুন (একাধিক চয়ন করতে পারেন):', type: 'mcq-multi', field: 'main_skills', options: formOptions.skills.bn.map(text => ({ text })) },
+                { text: 'আপনি এই দক্ষতাগুলিতে কতটা ভালো?', type: 'mcq', field: 'skill_level', options: formOptions.skillLevel.bn.map(text => ({ text })) },
+                // 4. Tools or Machines
+                { text: 'আপনি কোন সরঞ্জাম বা মেশিনগুলি চালাতে পারেন? (সবগুলি নির্বাচন করুন)', type: 'mcq-multi', field: 'tools', options: formOptions.tools.bn.map(text => ({ text })) },
+                // 5. Work Experience
+                { text: 'আপনি আগে কোথায় কাজ করেছেন?', type: 'mcq', field: 'work_place', options: formOptions.previousWork.bn.map(text => ({ text })) },
+                { text: 'আপনি সেখানে কী ধরনের কাজ করেছেন? (প্রধান কাজ নির্বাচন করুন)', type: 'mcq', field: 'work_tasks', options: formOptions.workType.bn.map(text => ({ text })) },
+                { text: 'আপনার সেরা বা গর্বের কাজ কী ছিল?', type: 'mcq', field: 'proud_work', options: formOptions.proudWork.bn.map(text => ({ text })) },
+                // 6. Certificates / Licenses
+                { text: 'আপনার কি নিম্নলিখিত কোনটি আছে? (সবগুলি নির্বাচন করুন)', type: 'mcq-multi', field: 'certificates', options: formOptions.certificates.bn.map(text => ({ text })) },
+                // 7. Languages & Communication
+                { text: 'আপনি কোন ভাষায় কথা বলতে পারেন? (সবগুলি নির্বাচন করুন)', type: 'mcq-multi', field: 'languages', options: formOptions.languages.bn.map(text => ({ text })) },
+                { text: 'যোগাযোগের পছন্দের উপায়:', type: 'mcq', field: 'contact_pref', options: formOptions.contact.bn.map(text => ({ text })) },
+                // 8. Work Preferences
+                { text: 'আপনি কি আপনার শহরের বাইরে কাজ করতে প্রস্তুত?', type: 'mcq', field: 'relocate', options: formOptions.yesNo.bn.map(text => ({ text })) },
+                { text: 'আপনি কী ধরনের চাকরি চান:', type: 'mcq', field: 'job_type', options: formOptions.jobType.bn.map(text => ({ text })) },
+                { text: 'আপনি কখন কাজে যোগ দিতে পারবেন?', type: 'mcq', field: 'join_date', options: formOptions.joinTime.bn.map(text => ({ text })) },
+                // Resume Language Question
+                { text: 'আপনি কোন ভাষায় আপনার রেজুমে চান?', type: 'mcq', field: 'resume_language', options: resumeLanguageOptions },
+                // Final
+                { text: "দারুণ! আমার কাছে সব তথ্য আছে। আমি আপনার পেশাদার রেজুমে তৈরি করছি...", type: 'final', field: 'completion' }
+            ],
+            'ta-IN': [
+                // 1. Personal Details
+                { text: "வணக்கம்! நான் உங்கள் ரெஸ்யூம் உதவியாளர். உங்கள் முழுப் பெயர் என்ன?", type: 'text', field: 'name' },
+                { text: 'உங்கள் வயது என்ன?', type: 'mcq', field: 'age', options: [{ text: '20க்கு கீழ்' }, { text: '20-30' }, { text: '30-40' }, { text: '40க்கு மேல்' }] },
+                { text: 'உங்கள் தொலைபேசி / வாட்ஸ்அப் எண் என்ன?', type: 'text', field: 'phone' },
+                { text: 'நீங்கள் எந்த நகரத்தில் அல்லது பகுதியில் வசிக்கிறீர்கள்?', type: 'text', field: 'location' },
+                // 2. Work Type & Experience
+                { text: 'நீங்கள் என்ன வகையான வேலை செய்கிறீர்கள்?', type: 'mcq', field: 'job_title', options: formOptions.workType.ta.map(text => ({ text })) },
+                { text: 'உங்களுக்கு எத்தனை வருட அனுபவம் உள்ளது?', type: 'mcq', field: 'experience_years', options: formOptions.experience.ta.map(text => ({ text })) },
+                // 3. Skills
+                { text: 'உங்கள் முக்கிய திறன்களைத் தேர்ந்தெடுக்கவும் (ஒன்றுக்கு மேற்பட்டவற்றைத் தேர்ந்தெடுக்கலாம்):', type: 'mcq-multi', field: 'main_skills', options: formOptions.skills.ta.map(text => ({ text })) },
+                { text: 'இந்த திறமைகளில் நீங்கள் எவ்வளவு சிறந்தவர்?', type: 'mcq', field: 'skill_level', options: formOptions.skillLevel.ta.map(text => ({ text })) },
+                // 4. Tools or Machines
+                { text: 'நீங்கள் எந்த கருவிகள் அல்லது இயந்திரங்களைக் கையாள முடியும்? (பொருந்தும் அனைத்தையும் தேர்ந்தெடுக்கவும்)', type: 'mcq-multi', field: 'tools', options: formOptions.tools.ta.map(text => ({ text })) },
+                // 5. Work Experience
+                { text: 'நீங்கள் முன்பு எங்கே வேலை செய்தீர்கள்?', type: 'mcq', field: 'work_place', options: formOptions.previousWork.ta.map(text => ({ text })) },
+                { text: 'நீங்கள் அங்கு என்ன வகையான வேலை செய்தீர்கள்? (முக்கிய வேலையைத் தேர்ந்தெடுக்கவும்)', type: 'mcq', field: 'work_tasks', options: formOptions.workType.ta.map(text => ({ text })) },
+                { text: 'உங்கள் சிறந்த அல்லது பெருமையான வேலை என்ன?', type: 'mcq', field: 'proud_work', options: formOptions.proudWork.ta.map(text => ({ text })) },
+                // 6. Certificates / Licenses
+                { text: 'பின்வருவனவற்றில் உங்களிடம் ஏதேனும் உள்ளதா? (பொருந்தும் அனைத்தையும் தேர்ந்தெடுக்கவும்)', type: 'mcq-multi', field: 'certificates', options: formOptions.certificates.ta.map(text => ({ text })) },
+                // 7. Languages & Communication
+                { text: 'நீங்கள் எந்த மொழிகளில் பேசுவீர்கள்? (பொருந்தும் அனைத்தையும் தேர்ந்தெடுக்கவும்)', type: 'mcq-multi', field: 'languages', options: formOptions.languages.ta.map(text => ({ text })) },
+                { text: 'விரும்பிய தொடர்பு வழி:', type: 'mcq', field: 'contact_pref', options: formOptions.contact.ta.map(text => ({ text })) },
+                // 8. Work Preferences
+                { text: 'உங்கள் ஊருக்கு வெளியே வேலை செய்யத் தயாரா?', type: 'mcq', field: 'relocate', options: formOptions.yesNo.ta.map(text => ({ text })) },
+                { text: 'நீங்கள் விரும்பும் வேலை வகை:', type: 'mcq', field: 'job_type', options: formOptions.jobType.ta.map(text => ({ text })) },
+                { text: 'நீங்கள் எப்போது வேலையில் சேர முடியும்?', type: 'mcq', field: 'join_date', options: formOptions.joinTime.ta.map(text => ({ text })) },
+                // Resume Language Question
+                { text: 'உங்கள் ரெஸ்யூமை எந்த மொழியில் விரும்புகிறீர்கள்?', type: 'mcq', field: 'resume_language', options: resumeLanguageOptions },
+                // Final
+                { text: "அருமை! எனக்குத் தேவையான எல்லா தகவல்களும் கிடைத்துவிட்டன. உங்கள் தொழில்முறை ரெஸ்யூமை உருவாக்குகிறேன்...", type: 'final', field: 'completion' }
+            ],
+            'te-IN': [
+                // 1. Personal Details
+                { text: "నమస్కారం! నేను మీ రెజ్యూమ్ సహాయకుడిని. మీ పూర్తి పేరు ఏమిటి?", type: 'text', field: 'name' },
+                { text: 'మీ వయస్సు ఎంత?', type: 'mcq', field: 'age', options: [{ text: '20 లోపు' }, { text: '20-30' }, { text: '30-40' }, { text: '40 పైన' }] },
+                { text: 'మీ ఫోన్ / వాట్సాప్ నంబర్ ఏమిటి?', type: 'text', field: 'phone' },
+                { text: 'మీరు ఏ నగరంలో లేదా ప్రాంతంలో నివసిస్తున్నారు?', type: 'text', field: 'location' },
+                // 2. Work Type & Experience
+                { text: 'మీరు ఎలాంటి పని చేస్తారు?', type: 'mcq', field: 'job_title', options: formOptions.workType.te.map(text => ({ text })) },
+                { text: 'మీకు ఎన్ని సంవత్సరాల అనుభవం ఉంది?', type: 'mcq', field: 'experience_years', options: formOptions.experience.te.map(text => ({ text })) },
+                // 3. Skills
+                { text: 'మీ ప్రధాన నైపుణ్యాలను ఎంచుకోండి (ఒకటి కంటే ఎక్కువ ఎంచుకోవచ్చు):', type: 'mcq-multi', field: 'main_skills', options: formOptions.skills.te.map(text => ({ text })) },
+                { text: 'ఈ నైపుణ్యాలలో మీరు ఎంత నిపుణులు?', type: 'mcq', field: 'skill_level', options: formOptions.skillLevel.te.map(text => ({ text })) },
+                // 4. Tools or Machines
+                { text: 'మీరు ఏ సాధనాలు లేదా యంత్రాలను கையாளగలరు? (అన్నీ ఎంచుకోండి)', type: 'mcq-multi', field: 'tools', options: formOptions.tools.te.map(text => ({ text })) },
+                // 5. Work Experience
+                { text: 'మీరు ఇంతకు ముందు ఎక్కడ పనిచేశారు?', type: 'mcq', field: 'work_place', options: formOptions.previousWork.te.map(text => ({ text })) },
+                { text: 'మీరు అక్కడ ఎలాంటి పని చేశారు? (ప్రధాన పనిని ఎంచుకోండి)', type: 'mcq', field: 'work_tasks', options: formOptions.workType.te.map(text => ({ text })) },
+                { text: 'మీరు చేసిన ఉత్తమమైన లేదా గర్వపడే పని ఏమిటి?', type: 'mcq', field: 'proud_work', options: formOptions.proudWork.te.map(text => ({ text })) },
+                // 6. Certificates / Licenses
+                { text: 'మీ వద్ద కింది వాటిలో ఏవైనా ఉన్నాయా? (అన్నీ ఎంచుకోండి)', type: 'mcq-multi', field: 'certificates', options: formOptions.certificates.te.map(text => ({ text })) },
+                // 7. Languages & Communication
+                { text: 'మీరు ఏ భాషలు మాట్లాడగలరు? (అన్నీ ఎంచుకోండి)', type: 'mcq-multi', field: 'languages', options: formOptions.languages.te.map(text => ({ text })) },
+                { text: 'ప్రాధాన్య సంప్రదింపు విధానం:', type: 'mcq', field: 'contact_pref', options: formOptions.contact.te.map(text => ({ text })) },
+                // 8. Work Preferences
+                { text: 'మీరు మీ నగరం వెలుపల పనిచేయడానికి సిద్ధంగా ఉన్నారా?', type: 'mcq', field: 'relocate', options: formOptions.yesNo.te.map(text => ({ text })) },
+                { text: 'మీకు ఎలాంటి ఉద్యోగం కావాలి:', type: 'mcq', field: 'job_type', options: formOptions.jobType.te.map(text => ({ text })) },
+                { text: 'మీరు ఎప్పుడు పనిలో చేరగలరు?', type: 'mcq', field: 'join_date', options: formOptions.joinTime.te.map(text => ({ text })) },
+                // Resume Language Question
+                { text: 'మీకు ఏ భాషలో రెజ్యూమ్ కావాలి?', type: 'mcq', field: 'resume_language', options: resumeLanguageOptions },
+                // Final
+                { text: "అద్భుతం! నాకు కావలసిన సమాచారం అంతా ఉంది. మీ ప్రొఫెషనల్ రెజ్యూమ్‌ని సృష్టిస్తున్నాను...", type: 'final', field: 'completion' }
+            ],
+            'mr-IN': [
+                // 1. Personal Details
+                { text: "नमस्कार! मी तुमचा रेझ्युमे सहाय्यक आहे. तुमचे पूर्ण नाव काय आहे?", type: 'text', field: 'name' },
+                { text: 'तुमचे वय काय आहे?', type: 'mcq', field: 'age', options: [{ text: '२० पेक्षा कमी' }, { text: '२०-३०' }, { text: '३०-४०' }, { text: '४० पेक्षा जास्त' }] },
+                { text: 'तुमचा फोन / व्हाट्सएप नंबर काय आहे?', type: 'text', field: 'phone' },
+                { text: 'तुम्ही कोणत्या शहरात किंवा परिसरात राहता?', type: 'text', field: 'location' },
+                // 2. Work Type & Experience
+                { text: 'तुम्ही कोणत्या प्रकारचे काम करता?', type: 'mcq', field: 'job_title', options: formOptions.workType.mr.map(text => ({ text })) },
+                { text: 'तुम्हाला किती वर्षांचा अनुभव आहे?', type: 'mcq', field: 'experience_years', options: formOptions.experience.mr.map(text => ({ text })) },
+                // 3. Skills
+                { text: 'तुमची मुख्य कौशल्ये निवडा (एकापेक्षा जास्त निवडू शकता):', type: 'mcq-multi', field: 'main_skills', options: formOptions.skills.mr.map(text => ({ text })) },
+                { text: 'तुम्ही या कौशल्यांमध्ये किती चांगले आहात?', type: 'mcq', field: 'skill_level', options: formOptions.skillLevel.mr.map(text => ({ text })) },
+                // 4. Tools or Machines
+                { text: 'तुम्ही कोणती अवजारे किंवा मशीन हाताळू शकता? (लागू असलेले सर्व निवडा)', type: 'mcq-multi', field: 'tools', options: formOptions.tools.mr.map(text => ({ text })) },
+                // 5. Work Experience
+                { text: 'तुम्ही यापूर्वी कुठे काम केले आहे?', type: 'mcq', field: 'work_place', options: formOptions.previousWork.mr.map(text => ({ text })) },
+                { text: 'तुम्ही तिथे कोणत्या प्रकारचे काम केले? (मुख्य काम निवडा)', type: 'mcq', field: 'work_tasks', options: formOptions.workType.mr.map(text => ({ text })) },
+                { text: 'तुमचे सर्वोत्तम किंवा अभिमानास्पद काम कोणते होते?', type: 'mcq', field: 'proud_work', options: formOptions.proudWork.mr.map(text => ({ text })) },
+                // 6. Certificates / Licenses
+                { text: 'तुमच्याकडे खालीलपैकी काही आहे का? (लागू असलेले सर्व निवडा)', type: 'mcq-multi', field: 'certificates', options: formOptions.certificates.mr.map(text => ({ text })) },
+                // 7. Languages & Communication
+                { text: 'तुम्ही कोणत्या भाषा बोलू शकता? (लागू असलेले सर्व निवडा)', type: 'mcq-multi', field: 'languages', options: formOptions.languages.mr.map(text => ({ text })) },
+                { text: 'संपर्काचा पसंतीचा मार्ग:', type: 'mcq', field: 'contact_pref', options: formOptions.contact.mr.map(text => ({ text })) },
+                // 8. Work Preferences
+                { text: 'तुम्ही तुमच्या शहराबाहेर काम करण्यास तयार आहात का?', type: 'mcq', field: 'relocate', options: formOptions.yesNo.mr.map(text => ({ text })) },
+                { text: 'तुम्हाला कोणत्या प्रकारची नोकरी हवी आहे:', type: 'mcq', field: 'job_type', options: formOptions.jobType.mr.map(text => ({ text })) },
+                { text: 'तुम्ही कामावर कधी रुजू होऊ शकता?', type: 'mcq', field: 'join_date', options: formOptions.joinTime.mr.map(text => ({ text })) },
+                // Resume Language Question
+                { text: 'तुम्हाला तुमचा रेझ्युमे कोणत्या भाषेत हवा आहे?', type: 'mcq', field: 'resume_language', options: resumeLanguageOptions },
+                // Final
+                { text: "उत्तम! माझ्याकडे सर्व माहिती आहे. मी तुमचा व्यावसायिक रेझ्युमे तयार करत आहे...", type: 'final', field: 'completion' }
+            ]
+        };
+
+        // Resume Translations
+        const resumeTranslations = {
+            'en-IN': {
+                yourName: 'Your Name',
+                professional: 'Professional',
+                skilled: 'Skilled',
+                na: 'N/A',
+                contact: 'Contact',
+                experience: 'Experience',
+                age: 'Age',
+                relocate: 'Ready to Relocate',
+                availability: 'Availability',
+                mySkills: 'My Skills',
+                noSkills: 'No main skills listed.',
+                tools: 'Tools & Machines',
+                noTools: 'No tools listed.',
+                workHistory: 'Work History',
+                workedAt: 'Worked at',
+                notSpecified: 'Not specified',
+                mainWork: 'Main Work',
+                proudWork: 'Proudest Work',
+                licenses: 'Licenses & Certificates',
+                noCerts: 'No certificates listed.',
+                languages: 'Languages',
+                noLangs: 'No languages listed.',
+                download: 'Download PDF',
+                edit: 'Edit Resume',
+                startNew: 'Start New',
+                generating: 'Generating your professional resume...',
+                pdfLoading: 'PDF library is loading. Please try again in a moment.',
+                chooseTemplate: 'Choose a Resume Template',
+                templateDescription: 'Select the design that best fits your style and industry',
+                selectTemplate: 'Select Template',
+                selected: 'Selected',
+                continue: 'Continue'
+            },
+            'hi-IN': {
+                yourName: 'आपका नाम',
+                professional: 'पेशेवर',
+                skilled: 'कुशल',
+                na: 'लागू नहीं',
+                contact: 'संपर्क',
+                experience: 'अनुभव',
+                age: 'उम्र',
+                relocate: 'बाहर काम करने के लिए तैयार',
+                availability: 'उपलब्धता',
+                mySkills: 'मेरे कौशल',
+                noSkills: 'कोई मुख्य कौशल सूचीबद्ध नहीं है।',
+                tools: 'उपकरण और मशीनें',
+                noTools: 'कोई उपकरण सूचीबद्ध नहीं है।',
+                workHistory: 'कार्य इतिहास',
+                workedAt: 'यहाँ काम किया',
+                notSpecified: 'निर्दिष्ट नहीं है',
+                mainWork: 'मुख्य काम',
+                proudWork: 'सबसे गर्व का काम',
+                licenses: 'लाइसेंस और प्रमाणपत्र',
+                noCerts: 'कोई प्रमाणपत्र सूचीबद्ध नहीं है।',
+                languages: 'भाषाएँ',
+                noLangs: 'कोई भाषा सूचीबद्ध नहीं है।',
+                download: 'पीडीएफ डाउनलोड करें',
+                edit: 'रिज्यूमे संपादित करें',
+                startNew: 'नया शुरू करें',
+                generating: 'आपका पेशेवर रिज्यूमे बना रहा हूँ...',
+                pdfLoading: 'पीडीएफ लाइब्रेरी लोड हो रही है। कृपया कुछ क्षण बाद पुनः प्रयास करें।',
+                chooseTemplate: 'एक रिज्यूमे टेम्पलेट चुनें',
+                templateDescription: 'वह डिज़ाइन चुनें जो आपकी शैली और उद्योग के लिए सबसे उपयुक्त हो',
+                selectTemplate: 'टेम्पलेट चुनें',
+                selected: 'चयनित',
+                continue: 'जारी रखें'
+            },
+            'bn-IN': {
+                yourName: 'আপনার নাম',
+                professional: 'পেশাদার',
+                skilled: 'দক্ষ',
+                na: 'প্রযোজ্য নয়',
+                contact: 'যোগাযোগ',
+                experience: 'অভিজ্ঞতা',
+                age: 'বয়স',
+                relocate: 'স্থানান্তরে ইচ্ছুক',
+                availability: 'যোগদানের তারিখ',
+                mySkills: 'আমার দক্ষতা',
+                noSkills: 'কোনো প্রধান দক্ষতা তালিকাভুক্ত নয়।',
+                tools: 'সরঞ্জাম এবং মেশিন',
+                noTools: 'কোনো সরঞ্জাম তালিকাভুক্ত নয়।',
+                workHistory: 'কাজের ইতিহাস',
+                workedAt: 'যেখানে কাজ করেছেন',
+                notSpecified: 'নির্দিষ্ট করা নেই',
+                mainWork: 'প্রধান কাজ',
+                proudWork: 'গর্বের কাজ',
+                licenses: 'লাইসেন্স এবং সার্টিফিকেট',
+                noCerts: 'কোনো সার্টিফিকেট তালিকাভুক্ত নয়।',
+                languages: 'ভাষা',
+                noLangs: 'কোনো ভাষা তালিকাভুক্ত নয়।',
+                download: 'পিডিএফ ডাউনলোড করুন',
+                edit: 'রেজুমে সম্পাদনা করুন',
+                startNew: 'নতুন করে শুরু করুন',
+                generating: 'আপনার পেশাদার রেজুমে তৈরি করা হচ্ছে...',
+                pdfLoading: 'পিডিএফ লাইব্রেরি লোড হচ্ছে। অনুগ্রহ করে একটু পরে আবার চেষ্টা করুন।',
+                chooseTemplate: 'একটি রেজুমে টেমপ্লেট নির্বাচন করুন',
+                templateDescription: 'আপনার শৈলী এবং শিল্পের জন্য সবচেয়ে উপযুক্ত ডিজাইন নির্বাচন করুন',
+                selectTemplate: 'টেমপ্লেট নির্বাচন করুন',
+                selected: 'নির্বাচিত',
+                continue: 'চালিয়ে যান'
+            },
+            'ta-IN': {
+                yourName: 'உங்கள் பெயர்',
+                professional: 'தொழில்முறை',
+                skilled: 'திறமையானவர்',
+                na: 'பொருந்தாது',
+                contact: 'தொடர்பு',
+                experience: 'அனுபவம்',
+                age: 'வயது',
+                relocate: 'இடம் மாறத் தயார்',
+                availability: 'கிடைக்கும் தன்மை',
+                mySkills: 'என் திறமைகள்',
+                noSkills: 'முக்கிய திறன்கள் எதுவும் பட்டியலிடப்படவில்லை.',
+                tools: 'கருவிகள் மற்றும் இயந்திரங்கள்',
+                noTools: 'கருவிகள் எதுவும் பட்டியலிடப்படவில்லை.',
+                workHistory: 'வேலை வரலாறு',
+                workedAt: 'பணிபுரிந்த இடம்',
+                notSpecified: 'குறிப்பிடப்படவில்லை',
+                mainWork: 'முக்கிய வேலை',
+                proudWork: 'பெருமையான வேலை',
+                licenses: 'உரிமங்கள் மற்றும் சான்றிதழ்கள்',
+                noCerts: 'சான்றிதழ்கள் எதுவும் பட்டியலிடப்படவில்லை.',
+                languages: 'மொழிகள்',
+                noLangs: 'மொழிகள் எதுவும் பட்டியலிடப்படவில்லை.',
+                download: 'PDF பதிவிறக்கவும்',
+                edit: 'ரெஸ்யூமைத் திருத்து',
+                startNew: 'புதிதாகத் தொடங்கு',
+                generating: 'உங்கள் தொழில்முறை ரெஸ்யூமை உருவாக்குகிறோம்...',
+                pdfLoading: 'PDF நூலகம் ஏற்றப்படுகிறது. சிறிது நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.',
+                chooseTemplate: 'ஒரு ரெஸ்யூம் டெம்ப்ளேட்டைத் தேர்ந்தெடுக்கவும்',
+                templateDescription: 'உங்கள் பாணி மற்றும் தொழிலுக்கு ஏற்ற வடிவமைப்பைத் தேர்ந்தெடுக்கவும்',
+                selectTemplate: 'டெம்ப்ளேட்டைத் தேர்ந்தெடுக்கவும்',
+                selected: 'தேர்ந்தெடுக்கப்பட்டது',
+                continue: 'தொடரவும்'
+            },
+            'te-IN': {
+                yourName: 'మీ పేరు',
+                professional: 'వృత్తి నిపుణుడు',
+                skilled: 'నైపుణ్యం',
+                na: 'వర్తించదు',
+                contact: 'సంప్రదించండి',
+                experience: 'అనుభవం',
+                age: 'వయస్సు',
+                relocate: 'స్థలం మారడానికి సిద్ధం',
+                availability: 'లభ్యత',
+                mySkills: 'నా నైపుణ్యాలు',
+                noSkills: 'ప్రధాన నైపుణ్యాలు ఏవీ జాబితా చేయబడలేదు.',
+                tools: 'సాధనాలు & యంత్రాలు',
+                noTools: 'సాధనాలు ఏవీ జాబితా చేయబడలేదు.',
+                workHistory: 'పని చరిత్ర',
+                workedAt: 'పనిచేసిన చోటు',
+                notSpecified: 'పేర్కొనబడలేదు',
+                mainWork: 'ప్రధాన పని',
+                proudWork: 'గర్వించదగిన పని',
+                licenses: 'లైసెన్స్‌లు & సర్టిఫికేట్లు',
+                noCerts: 'సర్టిఫికెట్లు ఏవీ జాబితా చేయబడలేదు.',
+                languages: 'భాషలు',
+                noLangs: 'భాషలు ఏవీ జాబితా చేయబడలేదు.',
+                download: 'PDF డౌన్‌లోడ్ చేయండి',
+                edit: 'రెజ్యూమ్‌ను సవరించండి',
+                startNew: 'కొత్తగా ప్రారంభించండి',
+                generating: 'మీ ప్రొఫెషనల్ రెజ్యూమ్‌ని సృష్టిస్తున్నాను...',
+                pdfLoading: 'PDF లైబ్రరీ లోడ్ అవుతోంది. దయచేసి కాసేపు ఆగి మళ్లీ ప్రయత్నించండి.',
+                chooseTemplate: 'ఒక రెజ్యూమ్ టెంప్లేట్‌ను ఎంచుకోండి',
+                templateDescription: 'మీ శైలి మరియు పరిశ్రమకు సరిపోయే డిజైన్‌ను ఎంచుకోండి',
+                selectTemplate: 'టెంప్లేట్ ఎంచుకోండి',
+                selected: 'ఎంచుకున్నారు',
+                continue: 'కొనసాగించు'
+            },
+            'mr-IN': {
+                yourName: 'तुमचे नाव',
+                professional: 'व्यावसायिक',
+                skilled: 'कुशल',
+                na: 'लागू नाही',
+                contact: 'संपर्क',
+                experience: 'अनुभव',
+                age: 'वय',
+                relocate: 'स्थलांतरासाठी तयार',
+                availability: 'उपलब्धता',
+                mySkills: 'माझी कौशल्ये',
+                noSkills: 'कोणतीही मुख्य कौशल्ये सूचीबद्ध नाहीत.',
+                tools: 'साधने आणि मशीन',
+                noTools: 'कोणतीही साधने सूचीबद्ध नाहीत.',
+                workHistory: 'कामाचा इतिहास',
+                workedAt: 'येथे काम केले',
+                notSpecified: 'निर्दिष्ट नाही',
+                mainWork: 'मुख्य काम',
+                proudWork: 'सर्वात अभिमानास्पद काम',
+                licenses: 'परवाने आणि प्रमाणपत्रे',
+                noCerts: 'कोणतीही प्रमाणपत्रे सूचीबद्ध नाहीत.',
+                languages: 'भाषा',
+                noLangs: 'कोणतीही भाषा सूचीबद्ध नाही.',
+                download: 'पीडीएफ डाउनलोड करा',
+                edit: 'रेझ्युमे संपादित करा',
+                startNew: 'नवीन सुरू करा',
+                generating: 'तुमचा व्यावसायिक रेझ्युमे तयार करत आहे...',
+                pdfLoading: 'PDF लायब्ररी लोड होत आहे. कृपया थोड्या वेळाने पुन्हा प्रयत्न करा.',
+                chooseTemplate: 'एक रेझ्युमे टेम्पलेट निवडा',
+                templateDescription: 'तुमच्या शैली आणि उद्योगासाठी सर्वात योग्य डिझाइन निवडा',
+                selectTemplate: 'टेम्पलेट निवडा',
+                selected: 'निवडले',
+                continue: 'सुरू ठेवा'
+            }
+        };
+
+        // Progress text translations
+        const progressTranslations = {
+            'en-IN': (section, total) => `Section ${section} of ${total}`,
+            'hi-IN': (section, total) => `अनुभाग ${section} / ${total}`,
+            'bn-IN': (section, total) => `বিভাগ ${section} / ${total}`,
+            'ta-IN': (section, total) => `பிரிவு ${section} / ${total}`,
+            'te-IN': (section, total) => `విభాగం ${section} / ${total}`,
+            'mr-IN': (section, total) => `विभाग ${section} / ${total}`
+        };
+
+        // Helper to map question index to a section number
+        function getSectionInfo(index, lang) {
+            if (index < 0) return { current: 0, total: 8 };
+
+            const questions = questionSets[lang];
+            const totalSections = 8;
+
+            if (index >= questions.findIndex(q => q.field === 'completion')) return { current: 8, total: 8 };
+            if (index >= questions.findIndex(q => q.field === 'resume_language')) return { current: 8, total: 8 };
+            if (index >= questions.findIndex(q => q.field === 'relocate')) return { current: 8, total: 8 };
+            if (index >= questions.findIndex(q => q.field === 'languages')) return { current: 7, total: 8 };
+            if (index >= questions.findIndex(q => q.field === 'certificates')) return { current: 6, total: 8 };
+            if (index >= questions.findIndex(q => q.field === 'work_place')) return { current: 5, total: 8 };
+            if (index >= questions.findIndex(q => q.field === 'tools')) return { current: 4, total: 8 };
+            if (index >= questions.findIndex(q => q.field === 'main_skills')) return { current: 3, total: 8 };
+            if (index >= questions.findIndex(q => q.field === 'job_title')) return { current: 2, total: 8 };
+            return { current: 1, total: 8 };
+        }
+
+        // DOM Elements
+        let chatMessages, userInput, sendButton, micButton, inputContainer;
+        let progressFill, progressText, languageSelect, volumeToggle, progressBarEl;
+        let recognition;
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDOM();
+            setupEventListeners();
+            setupSpeechRecognition();
+            resetChatbot();
+            askNextQuestion();
+        });
+
+        // Initialize DOM Elements
+        function initializeDOM() {
+            chatMessages = document.getElementById('chatMessages');
+            userInput = document.getElementById('userInput');
+            sendButton = document.getElementById('sendButton');
+            micButton = document.getElementById('micButton');
+            progressFill = document.getElementById('progressFill');
+            progressText = document.getElementById('progressText');
+            progressBarEl = document.getElementById('progressBar');
+            languageSelect = document.getElementById('languageSelect');
+            volumeToggle = document.getElementById('volumeToggle');
+            inputContainer = document.querySelector('.input-container');
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            sendButton.addEventListener('click', handleSendMessage);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                }
+            });
+
+            micButton.addEventListener('click', toggleVoiceInput);
+
+            languageSelect.addEventListener('change', (e) => {
+                appState.selectedLanguage = e.target.value;
+                if (recognition) {
+                    recognition.lang = appState.selectedLanguage;
+                }
+            });
+
+            volumeToggle.addEventListener('click', toggleSpeech);
+        }
+
+        // Setup Speech Recognition
+        function setupSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = appState.selectedLanguage;
+
+                recognition.onstart = () => {
+                    appState.isListening = true;
+                    micButton.classList.add('listening');
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    userInput.value = transcript;
+                    userInput.focus();
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    if (event.error === 'no-speech') {
+                        addBotMessage('I didn\'t hear anything. Please try again.');
+                    } else if (event.error === 'not-allowed') {
+                        addBotMessage('Microphone access was denied. Please enable it in your browser settings.');
+                    }
+                };
+
+                recognition.onend = () => {
+                    appState.isListening = false;
+                    micButton.classList.remove('listening');
+                };
+            } else {
+                if (micButton) {
+                    micButton.style.display = 'none';
+                }
+            }
+        }
+
+        // Toggle Voice Input
+        function toggleVoiceInput() {
+            if (!recognition) {
+                alert('Speech recognition is not supported in your browser.');
+                return;
+            }
+
+            if (appState.isListening) {
+                recognition.stop();
+            } else {
+                recognition.lang = appState.selectedLanguage;
+                recognition.start();
+            }
+        }
+
+        // Reset Chatbot
+        function resetChatbot() {
+            appState.currentQuestionIndex = -1;
+            appState.userResponses = {};
+            appState.conversationActive = false;
+            appState.selectedTemplate = null;
+            chatMessages.innerHTML = '';
+            userInput.value = '';
+            updateProgressBar();
+        }
+
+        // Show Translated Welcome Messages
+        function showWelcomeMessages() {
+            const welcomeMessages = welcomeTranslations[appState.selectedLanguage];
+
+            welcomeMessages.forEach((msg, index) => {
+                setTimeout(() => {
+                    addBotMessage(msg);
+                    if (appState.speechEnabled && index === 0) {
+                        speakText(msg);
+                    }
+                }, index * 1000);
+            });
+
+            setTimeout(() => {
+                askNextQuestion();
+            }, (welcomeMessages.length * 1000) + 500);
+        }
+
+        // Ask Next Question
+        function askNextQuestion() {
+            // Remove any existing MCQ options
+            const existingOptions = chatMessages.querySelector('.mcq-options');
+            if (existingOptions) {
+                existingOptions.remove();
+            }
+
+            // Handle Initial Language Question
+            if (appState.currentQuestionIndex === -1) {
+                addBotMessage(initialLanguageQuestion.text);
+                addMCQButtons(initialLanguageQuestion.options, true);
+                inputContainer.style.display = 'none';
+                progressBarEl.style.display = 'none';
+                progressText.style.display = 'none';
+                return;
+            }
+
+            // Regular Question Flow
+            progressBarEl.style.display = 'block';
+            progressText.style.display = 'block';
+
+            const questions = questionSets[appState.selectedLanguage];
+
+            if (appState.currentQuestionIndex >= questions.length - 1) {
+                // Handle completion
+                const finalMessage = questions[questions.length - 1].text;
+                addBotMessage(finalMessage);
+                if (appState.speechEnabled) {
+                    speakText(finalMessage);
+                }
+
+                appState.currentQuestionIndex = questions.length - 1;
+                updateProgressBar();
+
+                setTimeout(() => {
+                    completeConversation();
+                }, 2000);
+                return;
+            }
+
+            const question = questions[appState.currentQuestionIndex];
+
+            addBotMessage(question.text);
+            
+            // Speak the question and options for MCQ questions
+            if (appState.speechEnabled) {
+                let speechText = question.text;
+                
+                // Add options to speech for MCQ questions
+                if (question.type === 'mcq' || question.type === 'mcq-multi') {
+                    speechText += ". Options are: ";
+                    speechText += question.options.map((option, index) => 
+                        `${index + 1}. ${option.text}`
+                    ).join(', ');
+                }
+                
+                speakText(speechText);
+            }
+
+            // Show/hide input based on question type
+            if (question.type === 'text') {
+                inputContainer.style.display = 'flex';
+                userInput.focus();
+            } else if (question.type === 'mcq') {
+                inputContainer.style.display = 'none';
+                addMCQButtons(question.options, (question.field === 'resume_language'));
+            } else if (question.type === 'mcq-multi') {
+                inputContainer.style.display = 'none';
+                addMultiSelectMCQButtons(question.options);
+            }
+
+            updateProgressBar();
+        }
+
+        // Add MCQ Buttons (for single choice)
+        function addMCQButtons(options, useValue = false) {
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'mcq-options';
+
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'btn-secondary';
+                button.textContent = option.text;
+
+                button.addEventListener('click', () => {
+                    const value = useValue ? option.value : option.text;
+                    addUserMessage(option.text);
+                    processUserResponse(value);
+                });
+                buttonContainer.appendChild(button);
+            });
+
+            chatMessages.appendChild(buttonContainer);
+            scrollToBottom();
+        }
+
+        // Add Multi-Select MCQ Buttons
+        function addMultiSelectMCQButtons(options) {
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'mcq-options';
+
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'btn-secondary';
+                button.textContent = option.text;
+
+                button.addEventListener('click', () => {
+                    button.classList.toggle('selected');
+                });
+                buttonContainer.appendChild(button);
+            });
+
+            // Add a "Next" or "Done" button
+            const nextButton = document.createElement('button');
+            nextButton.className = 'btn-primary';
+            nextButton.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+            nextButton.addEventListener('click', () => {
+                const selectedButtons = buttonContainer.querySelectorAll('.btn-secondary.selected');
+                const selectedValues = Array.from(selectedButtons).map(btn => btn.textContent);
+
+                if (selectedValues.length === 0) {
+                    if (options.find(o => o.text.toLowerCase() === 'none' || o.text.toLowerCase() === 'कोई नहीं' || o.text.toLowerCase() === 'কোনোটিই নয়' || o.text.toLowerCase() === 'ஏதுமில்லை' || o.text.toLowerCase() === 'ఏవీ లేవు' || o.text.toLowerCase() === 'काहीही नाही')) {
+                        processUserResponse('');
+                    } else {
+                        processUserResponse('');
+                    }
+                    addUserMessage("(Skipped)");
+                } else {
+                    const combinedValue = selectedValues.join(', ');
+                    addUserMessage(combinedValue);
+                    processUserResponse(combinedValue);
+                }
+            });
+
+            buttonContainer.appendChild(nextButton);
+            chatMessages.appendChild(buttonContainer);
+            scrollToBottom();
+        }
+
+        // Handle Send Message
+        function handleSendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addUserMessage(message);
+            processUserResponse(message);
+            userInput.value = '';
+        }
+
+        // Process User Response
+        function processUserResponse(response) {
+
+            // Handle Initial Language Selection
+            if (appState.currentQuestionIndex === -1) {
+                appState.selectedLanguage = response;
+                languageSelect.value = response;
+                if (recognition) {
+                    recognition.lang = response;
+                }
+                appState.currentQuestionIndex = 0;
+
+                showTypingIndicator();
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    showWelcomeMessages();
+                }, 1000);
+                return;
+            }
+
+            // Regular Response Processing
+            const questions = questionSets[appState.selectedLanguage];
+            const currentQuestion = questions[appState.currentQuestionIndex];
+            const field = currentQuestion.field;
+
+            if (field && field !== 'completion') {
+                let valueToStore = response;
+
+                if (response.toLowerCase() === 'skip' || response.toLowerCase() === 'no') {
+                    valueToStore = '';
+                }
+
+                if ((field === 'certificates' || field === 'tools') && (response.includes('None') || response.includes('कोई नहीं') || response.includes('কোনোটিই নয়') || response.includes('ஏதுமில்லை') || response.includes('ఏవీ లేవు') || response.includes('काहीही नाही'))) {
+                    valueToStore = '';
+                }
+
+                appState.userResponses[field] = valueToStore;
+            }
+
+            appState.currentQuestionIndex++;
+
+            showTypingIndicator();
+
+            setTimeout(() => {
+                hideTypingIndicator();
+                askNextQuestion();
+            }, 1000);
+        }
+
+        // Complete Conversation
+        function completeConversation() {
+            showTemplateSelection();
+        }
+
+        // Show Template Selection
+        function showTemplateSelection() {
+            // FIX: Use the resume_language from user responses
+            const lang = appState.userResponses.resume_language || appState.selectedLanguage;
+            const t = resumeTranslations[lang];
+
+            const templateHTML = `
+                <div class="template-selection-container">
+                    <h2>${t.chooseTemplate}</h2>
+                    <p>${t.templateDescription}</p>
+                    
+                    <div class="template-options">
+                        ${templateOptions.map(template => `
+                            <div class="template-option ${appState.selectedTemplate === template.id ? 'selected' : ''}" data-template="${template.id}">
+                                <div class="template-preview ${template.previewClass}">
+                                    <div class="template-preview-content">
+                                        <div class="template-preview-line long"></div>
+                                        <div class="template-preview-line medium"></div>
+                                        <div class="template-preview-line short"></div>
+                                        <div class="template-preview-line long"></div>
+                                        <div class="template-preview-line medium"></div>
+                                    </div>
+                                </div>
+                                <div class="template-info">
+                                    <div class="template-name">${template.name}</div>
+                                    <div class="template-description">${template.description}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="resume-buttons">
+                        <button id="selectTemplateBtn" class="btn-primary" ${!appState.selectedTemplate ? 'disabled' : ''}>
+                            <i class="fas fa-check"></i> ${t.continue}
+                        </button>
+                        <button onclick="editResume()" class="btn-secondary">
+                            <i class="fas fa-edit"></i> ${t.edit}
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            chatMessages.innerHTML = templateHTML;
+            chatMessages.scrollTop = 0;
+
+            // Add event listeners to template options
+            document.querySelectorAll('.template-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    document.querySelectorAll('.template-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+
+                    // Add selected class to clicked option
+                    option.classList.add('selected');
+
+                    // Update selected template
+                    appState.selectedTemplate = option.dataset.template;
+
+                    // Enable continue button
+                    document.getElementById('selectTemplateBtn').disabled = false;
+                });
+            });
+
+            // Add event listener to continue button
+            document.getElementById('selectTemplateBtn').addEventListener('click', () => {
+                generateResumePreview();
+            });
+
+            document.querySelector('.chatbot-input').style.display = 'none';
+        }
+
+        // Helper function for array to pills
+        function createPills(data, className = 'resume-pill') {
+            if (!data) return '';
+
+            // Translate the data if needed
+            const resumeLang = appState.userResponses.resume_language || appState.selectedLanguage;
+            const translatedData = translateResponse(data, appState.selectedLanguage, resumeLang);
+
+            return translatedData.split(',')
+                .map(item => item.trim())
+                .filter(item => item)
+                .map(item => `<span class="${className}">${escapeHtml(item)}</span>`)
+                .join('');
+        }
+
+        function createIconPills(data, iconClass, pillClass) {
+            if (!data) return '';
+
+            // Translate the data if needed
+            const resumeLang = appState.userResponses.resume_language || appState.selectedLanguage;
+            const translatedData = translateResponse(data, appState.selectedLanguage, resumeLang);
+
+            return translatedData.split(',')
+                .map(item => item.trim())
+                .filter(item => item)
+                .map(item => `<span class="resume-pill ${pillClass}"><i class="${iconClass}"></i> ${escapeHtml(item)}</span>`)
+                .join('');
+        }
+
+        // Generate Resume Preview
+        function generateResumePreview() {
+            const data = appState.userResponses;
+            // FIX: Use the resume_language from user responses
+            const lang = data.resume_language || appState.selectedLanguage;
+            const t = resumeTranslations[lang];
+
+            // Show loading overlay
+            showLoadingOverlay(t.generating);
+
+            setTimeout(() => {
+                hideLoadingOverlay();
+
+                // Generate resume based on selected template
+                let resumeHTML;
+                switch (appState.selectedTemplate) {
+                    case 'professional':
+                        resumeHTML = generateProfessionalTemplate(data, t);
+                        break;
+                    case 'modern':
+                        resumeHTML = generateModernTemplate(data, t);
+                        break;
+                    case 'creative':
+                        resumeHTML = generateCreativeTemplate(data, t);
+                        break;
+                    default:
+                        resumeHTML = generateProfessionalTemplate(data, t);
+                }
+                chatMessages.innerHTML = resumeHTML;
+                chatMessages.scrollTop = 0;
+
+                document.querySelector('.chatbot-input').style.display = 'none';
+            }, 2000);
+        }
+
+        // Professional Template
+        function generateProfessionalTemplate(data, t) {
+            // Translate user responses for display
+            const translatedData = {};
+            for (const [key, value] of Object.entries(data)) {
+                if (key === 'name' || key === 'phone' || key === 'location') {
+                    translatedData[key] = value; // Don't translate personal info
+                } else {
+                    translatedData[key] = translateResponse(value, appState.selectedLanguage, data.resume_language || appState.selectedLanguage);
+                }
+            }
+
+            return `
+                <div class="resume-preview-container">
+                    <div class="resume-header">
+                        <div class="name-title">
+                            <h1>${escapeHtml(translatedData.name || t.yourName)}</h1>
+                            <h2>${escapeHtml(translatedData.job_title || t.professional)} (${escapeHtml(translatedData.skill_level || t.skilled)})</h2>
+                        </div>
+                        <div class="contact-info">
+                            <p><i class="fas fa-phone-alt"></i> <strong>${escapeHtml(translatedData.phone || t.na)}</strong></p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${escapeHtml(translatedData.location || t.na)}</p>
+                            <p><i class="fab fa-whatsapp"></i> ${t.contact}: ${escapeHtml(translatedData.contact_pref || t.na)}</p>
+                        </div>
+                    </div>
+
+                    <div class="resume-section">
+                        <div class="resume-grid">
+                            <div class="resume-info-box">
+                                <strong>${t.experience}</strong>
+                                <p>${escapeHtml(translatedData.experience_years || t.na)}</p>
+                            </div>
+                            <div class="resume-info-box">
+                                <strong>${t.age}</strong>
+                                <p>${escapeHtml(translatedData.age || t.na)}</p>
+                            </div>
+                            <div class="resume-info-box">
+                                <strong>${t.relocate}</strong>
+                                <p>${escapeHtml(translatedData.relocate || t.na)}</p>
+                            </div>
+                            <div class="resume-info-box">
+                                <strong>${t.availability}</strong>
+                                <p>${escapeHtml(translatedData.join_date || t.na)}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resume-section">
+                        <h3><i class="fas fa-tools"></i> ${t.mySkills}</h3>
+                        <div class="resume-pills-container">
+                            ${createPills(translatedData.main_skills)}
+                            ${!translatedData.main_skills ? `<p>${t.noSkills}</p>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="resume-section">
+                        <h3><i class="fas fa-cogs"></i> ${t.tools}</h3>
+                        <div class="resume-pills-container">
+                             ${createPills(translatedData.tools)}
+                             ${!translatedData.tools ? `<p>${t.noTools}</p>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="resume-section">
+                        <h3><i class="fas fa-briefcase"></i> ${t.workHistory}</h3>
+                        <div class="resume-work-item">
+                            <p><strong>${t.workedAt}:</strong> ${escapeHtml(translatedData.work_place || t.notSpecified)}</p>
+                            <p><strong>${t.mainWork}:</strong> ${escapeHtml(translatedData.work_tasks || t.notSpecified)}</p>
+                            <p class="work-proud"><i class="fas fa-star" style="color: var(--accent-yellow);"></i> <strong>${t.proudWork}:</strong> ${escapeHtml(translatedData.proud_work || t.na)}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-grid">
+                        <div class="resume-section">
+                            <h3><i class="fas fa-id-card"></i> ${t.licenses}</h3>
+                            <div class="resume-pills-container">
+                                ${createIconPills(translatedData.certificates, 'fas fa-check-circle', 'license')}
+                                ${!translatedData.certificates ? `<p>${t.noCerts}</p>` : ''}
+                            </div>
+                        </div>
+
+                        <div class="resume-section">
+                            <h3><i class="fas fa-language"></i> ${t.languages}</h3>
+                            <div class="resume-pills-container">
+                                ${createIconPills(translatedData.languages, 'fas fa-comment', 'lang')}
+                                ${!translatedData.languages ? `<p>${t.noLangs}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="resume-buttons">
+                    <button onclick="downloadResumePDF()" class="btn-primary">
+                        <i class="fas fa-download"></i> ${t.download}
+                    </button>
+                    <button onclick="showTemplateSelection()" class="btn-secondary">
+                        <i class="fas fa-palette"></i> Change Template
+                    </button>
+                    <button onclick="editResume()" class="btn-secondary">
+                        <i class="fas fa-edit"></i> ${t.edit}
+                    </button>
+                    <button onclick="startNewResume()" class="btn-secondary">
+                        <i class="fas fa-plus"></i> ${t.startNew}
+                    </button>
+                </div>
+            `;
+        }
+
+        // Modern Template
+        function generateModernTemplate(data, t) {
+            // Translate user responses for display
+            const translatedData = {};
+            for (const [key, value] of Object.entries(data)) {
+                if (key === 'name' || key === 'phone' || key === 'location') {
+                    translatedData[key] = value; // Don't translate personal info
+                } else {
+                    translatedData[key] = translateResponse(value, appState.selectedLanguage, data.resume_language || appState.selectedLanguage);
+                }
+            }
+
+            return `
+                <div class="resume-preview-container" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border: none;">
+                    <div class="resume-header" style="background: white; padding: 30px; border-radius: 10px; box-shadow: var(--shadow-md); border-bottom: 5px solid var(--secondary-blue);">
+                        <div class="name-title">
+                            <h1 style="color: var(--secondary-blue); font-size: 32px;">${escapeHtml(translatedData.name || t.yourName)}</h1>
+                            <h2 style="color: var(--primary-orange); font-size: 22px;">${escapeHtml(translatedData.job_title || t.professional)}</h2>
+                            <p style="color: var(--gray-medium); margin-top: 10px;">${escapeHtml(translatedData.skill_level || t.skilled)}</p>
+                        </div>
+                        <div class="contact-info" style="text-align: right;">
+                            <p><i class="fas fa-phone-alt" style="color: var(--primary-orange);"></i> <strong>${escapeHtml(translatedData.phone || t.na)}</strong></p>
+                            <p><i class="fas fa-map-marker-alt" style="color: var(--primary-orange);"></i> ${escapeHtml(translatedData.location || t.na)}</p>
+                            <p><i class="fab fa-whatsapp" style="color: var(--primary-orange);"></i> ${t.contact}: ${escapeHtml(translatedData.contact_pref || t.na)}</p>
+                        </div>
+                    </div>
+
+                    <div class="resume-section" style="margin-top: 30px;">
+                        <div class="resume-grid">
+                            <div class="resume-info-box" style="background: white; border: none; box-shadow: var(--shadow-sm);">
+                                <strong>${t.experience}</strong>
+                                <p style="color: var(--secondary-blue);">${escapeHtml(translatedData.experience_years || t.na)}</p>
+                            </div>
+                            <div class="resume-info-box" style="background: white; border: none; box-shadow: var(--shadow-sm);">
+                                <strong>${t.age}</strong>
+                                <p style="color: var(--secondary-blue);">${escapeHtml(translatedData.age || t.na)}</p>
+                            </div>
+                            <div class="resume-info-box" style="background: white; border: none; box-shadow: var(--shadow-sm);">
+                                <strong>${t.relocate}</strong>
+                                <p style="color: var(--secondary-blue);">${escapeHtml(translatedData.relocate || t.na)}</p>
+                            </div>
+                            <div class="resume-info-box" style="background: white; border: none; box-shadow: var(--shadow-sm);">
+                                <strong>${t.availability}</strong>
+                                <p style="color: var(--secondary-blue);">${escapeHtml(translatedData.join_date || t.na)}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resume-section">
+                        <h3 style="color: var(--secondary-blue); border-bottom: 2px solid var(--secondary-blue);"><i class="fas fa-tools"></i> ${t.mySkills}</h3>
+                        <div class="resume-pills-container">
+                            ${createPills(translatedData.main_skills, 'resume-pill')}
+                            ${!translatedData.main_skills ? `<p>${t.noSkills}</p>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="resume-section">
+                        <h3 style="color: var(--secondary-blue); border-bottom: 2px solid var(--secondary-blue);"><i class="fas fa-cogs"></i> ${t.tools}</h3>
+                        <div class="resume-pills-container">
+                             ${createPills(translatedData.tools, 'resume-pill')}
+                             ${!translatedData.tools ? `<p>${t.noTools}</p>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="resume-section">
+                        <h3 style="color: var(--secondary-blue); border-bottom: 2px solid var(--secondary-blue);"><i class="fas fa-briefcase"></i> ${t.workHistory}</h3>
+                        <div class="resume-work-item" style="background: white; padding: 20px; border-radius: 8px; box-shadow: var(--shadow-sm);">
+                            <p><strong>${t.workedAt}:</strong> ${escapeHtml(translatedData.work_place || t.notSpecified)}</p>
+                            <p><strong>${t.mainWork}:</strong> ${escapeHtml(translatedData.work_tasks || t.notSpecified)}</p>
+                            <p class="work-proud" style="background: var(--accent-yellow); color: white; padding: 10px; border-radius: 5px; margin-top: 10px;"><i class="fas fa-star"></i> <strong>${t.proudWork}:</strong> ${escapeHtml(translatedData.proud_work || t.na)}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-grid">
+                        <div class="resume-section">
+                            <h3 style="color: var(--secondary-blue); border-bottom: 2px solid var(--secondary-blue);"><i class="fas fa-id-card"></i> ${t.licenses}</h3>
+                            <div class="resume-pills-container">
+                                ${createIconPills(translatedData.certificates, 'fas fa-check-circle', 'license')}
+                                ${!translatedData.certificates ? `<p>${t.noCerts}</p>` : ''}
+                            </div>
+                        </div>
+
+                        <div class="resume-section">
+                            <h3 style="color: var(--secondary-blue); border-bottom: 2px solid var(--secondary-blue);"><i class="fas fa-language"></i> ${t.languages}</h3>
+                            <div class="resume-pills-container">
+                                ${createIconPills(translatedData.languages, 'fas fa-comment', 'lang')}
+                                ${!translatedData.languages ? `<p>${t.noLangs}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="resume-buttons">
+                    <button onclick="downloadResumePDF()" class="btn-primary">
+                        <i class="fas fa-download"></i> ${t.download}
+                    </button>
+                    <button onclick="showTemplateSelection()" class="btn-secondary">
+                        <i class="fas fa-palette"></i> Change Template
+                    </button>
+                    <button onclick="editResume()" class="btn-secondary">
+                        <i class="fas fa-edit"></i> ${t.edit}
+                    </button>
+                    <button onclick="startNewResume()" class="btn-secondary">
+                        <i class="fas fa-plus"></i> ${t.startNew}
+                    </button>
+                </div>
+            `;
+        }
+
+        // Creative Template
+        function generateCreativeTemplate(data, t) {
+            // Translate user responses for display
+            const translatedData = {};
+            for (const [key, value] of Object.entries(data)) {
+                if (key === 'name' || key === 'phone' || key === 'location') {
+                    translatedData[key] = value; // Don't translate personal info
+                } else {
+                    translatedData[key] = translateResponse(value, appState.selectedLanguage, data.resume_language || appState.selectedLanguage);
+                }
+            }
+
+            return `
+                <div class="resume-preview-container" style="background: white; border-left: 8px solid var(--primary-orange);">
+                    <div class="resume-header" style="flex-direction: column; align-items: flex-start; gap: 20px; border-bottom: 3px solid var(--accent-yellow);">
+                        <div class="name-title" style="width: 100%;">
+                            <h1 style="color: var(--secondary-blue); font-size: 36px; border-bottom: 3px solid var(--primary-orange); padding-bottom: 10px; display: inline-block;">${escapeHtml(translatedData.name || t.yourName)}</h1>
+                            <h2 style="color: var(--text-dark); font-size: 24px; margin-top: 15px;">${escapeHtml(translatedData.job_title || t.professional)}</h2>
+                            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                                <span class="resume-pill" style="background: var(--primary-orange); color: white;">${escapeHtml(translatedData.skill_level || t.skilled)}</span>
+                                <span class="resume-pill" style="background: var(--secondary-blue); color: white;">${escapeHtml(translatedData.experience_years || t.na)}</span>
+                            </div>
+                        </div>
+                        <div class="contact-info" style="width: 100%; text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <p><i class="fas fa-phone-alt" style="color: var(--primary-orange);"></i> <strong>${escapeHtml(translatedData.phone || t.na)}</strong></p>
+                            <p><i class="fas fa-map-marker-alt" style="color: var(--primary-orange);"></i> ${escapeHtml(translatedData.location || t.na)}</p>
+                            <p><i class="fab fa-whatsapp" style="color: var(--primary-orange);"></i> ${t.contact}: ${escapeHtml(translatedData.contact_pref || t.na)}</p>
+                            <p><i class="fas fa-calendar-alt" style="color: var(--primary-orange);"></i> ${t.availability}: ${escapeHtml(translatedData.join_date || t.na)}</p>
+                        </div>
+                    </div>
+
+                    <div class="resume-grid" style="margin: 30px 0;">
+                        <div class="resume-section">
+                            <h3 style="color: var(--primary-orange); border-bottom: 2px dashed var(--primary-orange);"><i class="fas fa-tools"></i> ${t.mySkills}</h3>
+                        <div class="resume-pills-container">
+                            ${createPills(translatedData.main_skills)}
+                            ${!translatedData.main_skills ? `<p>${t.noSkills}</p>` : ''}
+                        </div>
+                        </div>
+
+                        <div class="resume-section">
+                            <h3 style="color: var(--primary-orange); border-bottom: 2px dashed var(--primary-orange);"><i class="fas fa-cogs"></i> ${t.tools}</h3>
+                        <div class="resume-pills-container">
+                            ${createPills(translatedData.tools)}
+                            ${!translatedData.tools ? `<p>${t.noTools}</p>` : ''}
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="resume-section">
+                        <h3 style="color: var(--primary-orange); border-bottom: 2px dashed var(--primary-orange);"><i class="fas fa-briefcase"></i> ${t.workHistory}</h3>
+                        <div class="resume-work-item" style="background: #FFF9E6; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent-yellow);">
+                            <p style="font-size: 18px; font-weight: 600; color: var(--secondary-blue);">${escapeHtml(translatedData.work_place || t.notSpecified)}</p>
+                            <p class="work-details"><strong>${t.mainWork}:</strong> ${escapeHtml(translatedData.work_tasks || t.notSpecified)}</p>
+                            <p class="work-proud" style="background: var(--success-green); color: white; padding: 10px; border-radius: 5px; margin-top: 15px;"><i class="fas fa-trophy"></i> <strong>${t.proudWork}:</strong> ${escapeHtml(translatedData.proud_work || t.na)}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="resume-grid" style="margin-top: 30px;">
+                        <div class="resume-section">
+                            <h3 style="color: var(--primary-orange); border-bottom: 2px dashed var(--primary-orange);"><i class="fas fa-id-card"></i> ${t.licenses}</h3>
+                            <div class="resume-pills-container">
+                                ${createIconPills(translatedData.certificates, 'fas fa-award', 'license')}
+                                ${!translatedData.certificates ? `<p>${t.noCerts}</p>` : ''}
+                            </div>
+                        </div>
+
+                        <div class="resume-section">
+                            <h3 style="color: var(--primary-orange); border-bottom: 2px dashed var(--primary-orange);"><i class="fas fa-language"></i> ${t.languages}</h3>
+                            <div class="resume-pills-container">
+                                ${createIconPills(translatedData.languages, 'fas fa-globe', 'lang')}
+                                ${!translatedData.languages ? `<p>${t.noLangs}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resume-section" style="margin-top: 30px; background: var(--secondary-blue); color: white; padding: 20px; border-radius: 8px;">
+                        <h3 style="color: white; border-bottom: 2px solid white;"><i class="fas fa-info-circle"></i> Additional Information</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                            <div>
+                                <strong>${t.age}:</strong> ${escapeHtml(translatedData.age || t.na)}
+                            </div>
+                            <div>
+                                <strong>${t.relocate}:</strong> ${escapeHtml(translatedData.relocate || t.na)}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="resume-buttons">
+                    <button onclick="downloadResumePDF()" class="btn-primary">
+                        <i class="fas fa-download"></i> ${t.download}
+                    </button>
+                    <button onclick="showTemplateSelection()" class="btn-secondary">
+                        <i class="fas fa-palette"></i> Change Template
+                    </button>
+                    <button onclick="editResume()" class="btn-secondary">
+                        <i class="fas fa-edit"></i> ${t.edit}
+                    </button>
+                    <button onclick="startNewResume()" class="btn-secondary">
+                        <i class="fas fa-plus"></i> ${t.startNew}
+                    </button>
+                </div>
+            `;
+        }
+
+        // Download Resume PDF
+        function downloadResumePDF() {
+            if (typeof window.jspdf === 'undefined') {
+                // FIX: Use the resume_language from user responses
+                const resumeLang = appState.userResponses.resume_language || appState.selectedLanguage;
+                const t = resumeTranslations[resumeLang];
+                alert(t.pdfLoading);
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'pt', 'a4');
+            const data = appState.userResponses;
+            // FIX: Use the resume_language from user responses
+            const lang = data.resume_language || appState.selectedLanguage;
+            const t = resumeTranslations[lang];
+
+            const margin = 40;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const contentWidth = pageWidth - (margin * 2);
+            let yPos = margin;
+
+            // --- Helpers ---
+            function addWrappedText(text, x, y, options) {
+                const { fontSize = 10, fontStyle = 'normal', color = '#2C3E50', maxWidth = contentWidth, icon = null } = options;
+                doc.setFontSize(fontSize);
+                doc.setFont(undefined, fontStyle);
+                doc.setTextColor(color);
+
+                let iconOffset = 0;
+                if (icon) {
+                    let iconSymbol = '';
+                    if (icon === 'fas fa-phone-alt') iconSymbol = '📞';
+                    if (icon === 'fas fa-map-marker-alt') iconSymbol = '📍';
+                    if (icon === 'fab fa-whatsapp') iconSymbol = '💬';
+                    if (icon) {
+                        doc.text(iconSymbol, x, y);
+                        iconOffset = 20;
+                    }
+                }
+
+                const lines = doc.splitTextToSize(text, maxWidth - iconOffset);
+                doc.text(lines, x + iconOffset, y);
+                return y + (lines.length * fontSize * 1.2);
+            }
+
+            function addPills(pillsArray, x, y, options) {
+                const { pillBg = '#ECF0F1', pillColor = '#2C3E50', pillHeight = 20, padding = 10, maxWidth = contentWidth, emptyText = 'None listed' } = options;
+                let currentX = x;
+                let currentY = y;
+
+                if (!pillsArray || pillsArray.length === 0) {
+                    addWrappedText(emptyText, x, y, { fontSize: 9, fontStyle: 'italic', color: '#95A5A6' });
+                    return currentY + 20;
+                }
+
+                pillsArray.forEach(text => {
+                    const textWidth = doc.getTextWidth(text) + (padding * 2);
+                    if (currentX + textWidth > (pageWidth - margin)) {
+                        currentY += pillHeight + 10;
+                        currentX = x;
+                    }
+
+                    doc.setFillColor(pillBg);
+                    doc.roundedRect(currentX, currentY - (pillHeight / 2) - 4, textWidth, pillHeight, 10, 10, 'F');
+                    addWrappedText(text, currentX + padding, currentY, { fontSize: 9, color: pillColor, maxWidth: textWidth - (padding * 2) });
+
+                    currentX += textWidth + 10;
+                });
+                return currentY + pillHeight + 10;
+            }
+
+            function addSectionHeader(text, y) {
+                addWrappedText(text, margin, y, { fontSize: 14, fontStyle: 'bold', color: '#004E89' });
+                doc.setDrawColor('#ECF0F1');
+                doc.setLineWidth(2);
+                doc.line(margin, y + 5, pageWidth - margin, y + 5);
+                return y + 25;
+            }
+
+            // --- 1. Header ---
+            yPos += 10;
+            addWrappedText(data.name || t.yourName, margin, yPos, { fontSize: 24, fontStyle: 'bold', color: '#004E89' });
+            yPos += 25;
+
+            // Translate job title and skill level for PDF
+            const jobTitle = translateResponse(data.job_title, appState.selectedLanguage, lang) || t.professional;
+            const skillLevel = translateResponse(data.skill_level, appState.selectedLanguage, lang) || t.skilled;
+            addWrappedText(`${jobTitle} (${skillLevel})`, margin, yPos, { fontSize: 16, fontStyle: 'normal', color: '#FF6B35' });
+
+            // Contact Info (align right)
+            let contactY = margin + 10;
+            const phone = data.phone || t.na;
+            const location = data.location || t.na;
+            const contactPref = `${t.contact}: ${translateResponse(data.contact_pref, appState.selectedLanguage, lang) || t.na}`;
+
+            doc.setFontSize(10);
+            doc.setTextColor('#2C3E50');
+            doc.text(phone, pageWidth - margin, contactY, { align: 'right' });
+            contactY += 15;
+            doc.text(location, pageWidth - margin, contactY, { align: 'right' });
+            contactY += 15;
+            doc.text(contactPref, pageWidth - margin, contactY, { align: 'right' });
+
+            doc.setDrawColor('#FF6B35');
+            doc.setLineWidth(3);
+            doc.line(margin, yPos + 20, pageWidth - margin, yPos + 20);
+            yPos += 45;
+
+            // --- 2. Info Grid ---
+            const boxWidth = (contentWidth - 20) / 2;
+            const boxHeight = 50;
+
+            function drawInfoBox(label, value, x, y) {
+                doc.setFillColor('#F9F9F9');
+                doc.setDrawColor('#ECF0F1');
+                doc.roundedRect(x, y, boxWidth, boxHeight, 8, 8, 'FD');
+                addWrappedText(label, x + 10, y + 18, { fontSize: 10, fontStyle: 'bold', color: '#95A5A6' });
+                addWrappedText(value, x + 10, y + 38, { fontSize: 12, fontStyle: 'bold', color: '#2C3E50' });
+            }
+
+            // Translate values for PDF
+            const experienceYears = translateResponse(data.experience_years, appState.selectedLanguage, lang) || t.na;
+            const age = data.age || t.na;
+            const relocate = translateResponse(data.relocate, appState.selectedLanguage, lang) || t.na;
+            const joinDate = translateResponse(data.join_date, appState.selectedLanguage, lang) || t.na;
+
+            drawInfoBox(t.experience, experienceYears, margin, yPos);
+            drawInfoBox(t.age, age, margin + boxWidth + 20, yPos);
+            yPos += boxHeight + 10;
+            drawInfoBox(t.relocate, relocate, margin, yPos);
+            drawInfoBox(t.availability, joinDate, margin + boxWidth + 20, yPos);
+            yPos += boxHeight + 25;
+
+            // --- 3. Skills ---
+            yPos = addSectionHeader(t.mySkills, yPos);
+            const skills = data.main_skills ?
+                translateResponse(data.main_skills, appState.selectedLanguage, lang).split(',').map(s => s.trim()) : [];
+            yPos = addPills(skills, margin, yPos + 15, { pillBg: '#ECF0F1', pillColor: '#2C3E50', maxWidth: contentWidth, emptyText: t.noSkills });
+            yPos += 15;
+
+            // --- 4. Tools ---
+            yPos = addSectionHeader(t.tools, yPos);
+            const tools = data.tools ?
+                translateResponse(data.tools, appState.selectedLanguage, lang).split(',').map(s => s.trim()) : [];
+            yPos = addPills(tools, margin, yPos + 15, { pillBg: '#ECF0F1', pillColor: '#2C3E50', maxWidth: contentWidth, emptyText: t.noTools });
+            yPos += 15;
+
+            // --- 5. Work History ---
+            yPos = addSectionHeader(t.workHistory, yPos);
+            const workPlace = translateResponse(data.work_place, appState.selectedLanguage, lang) || t.notSpecified;
+            const workTasks = translateResponse(data.work_tasks, appState.selectedLanguage, lang) || t.notSpecified;
+            const proudWork = translateResponse(data.proud_work, appState.selectedLanguage, lang) || t.na;
+
+            addWrappedText(`${t.workedAt}: ${workPlace}`, margin, yPos + 15, { fontSize: 11, fontStyle: 'bold' });
+            yPos += 30;
+            addWrappedText(`${t.mainWork}: ${workTasks}`, margin, yPos, { fontSize: 10 });
+            yPos += 25;
+            addWrappedText(`${t.proudWork}: ${proudWork}`, margin, yPos, { fontSize: 10, fontStyle: 'italic' });
+            yPos += 30;
+
+            // --- 6. Licenses & Languages (Side-by-side) ---
+            const halfWidth = contentWidth / 2;
+
+            // Licenses
+            addWrappedText(t.licenses, margin, yPos, { fontSize: 12, fontStyle: 'bold', color: '#004E89' });
+            const certs = data.certificates ?
+                translateResponse(data.certificates, appState.selectedLanguage, lang).split(',').map(s => s.trim()) : [];
+            let licensesY = addPills(certs, margin, yPos + 25, { pillBg: '#27AE60', pillColor: '#FFFFFF', maxWidth: halfWidth - 10, emptyText: t.noCerts });
+
+            // Languages
+            addWrappedText(t.languages, margin + halfWidth, yPos, { fontSize: 12, fontStyle: 'bold', color: '#004E89' });
+            const langs = data.languages ?
+                translateResponse(data.languages, appState.selectedLanguage, lang).split(',').map(s => s.trim()) : [];
+            let langsY = addPills(langs, margin + halfWidth, yPos + 25, { pillBg: '#004E89', pillColor: '#FFFFFF', maxWidth: halfWidth - 10, emptyText: t.noLangs });
+
+            const fileName = `Resume_${data.name ? data.name.replace(/\s+/g, '_') : 'Profile'}_${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(fileName);
+        }
+
+        // Edit Resume
+        function editResume() {
+            appState.currentQuestionIndex = -1;
+            chatMessages.innerHTML = '';
+            document.querySelector('.chatbot-input').style.display = 'block';
+            askNextQuestion();
+        }
+
+        // Start New Resume
+        function startNewResume() {
+            resetChatbot();
+            document.querySelector('.chatbot-input').style.display = 'block';
+            askNextQuestion();
+        }
+
+        // Add Bot Message
+        function addBotMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot';
+            messageDiv.innerHTML = `
+                <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                <div class="message-content">${escapeHtml(text)}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Add User Message
+        function addUserMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user';
+            messageDiv.innerHTML = `
+                <div class="message-content">${escapeHtml(text)}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Show Typing Indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot typing-message';
+            typingDiv.innerHTML = `
+                <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        // Hide Typing Indicator
+        function hideTypingIndicator() {
+            const typingMessage = chatMessages.querySelector('.typing-message');
+            if (typingMessage) {
+                typingMessage.remove();
+            }
+        }
+
+        // Update Progress Bar
+        function updateProgressBar() {
+            const sectionInfo = getSectionInfo(appState.currentQuestionIndex, appState.selectedLanguage);
+            const progress = (sectionInfo.current / sectionInfo.total) * 100;
+            progressFill.style.width = `${progress}%`;
+            updateProgressText();
+        }
+
+        // Update Progress Text
+        function updateProgressText() {
+            const sectionInfo = getSectionInfo(appState.currentQuestionIndex, appState.selectedLanguage);
+            if (sectionInfo.current === 0) {
+                progressText.textContent = '';
+                return;
+            }
+            const getProgressText = progressTranslations[appState.selectedLanguage];
+            progressText.textContent = getProgressText(sectionInfo.current, sectionInfo.total);
+        }
+
+        // Scroll to Bottom
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Text-to-Speech
+        function speakText(text) {
+            if ('speechSynthesis' in window && appState.speechEnabled) {
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = appState.selectedLanguage;
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+
+                const voices = window.speechSynthesis.getVoices();
+                const selectedVoice = voices.find(voice => voice.lang.startsWith(appState.selectedLanguage.substring(0, 2)));
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Toggle Speech
+        function toggleSpeech() {
+            appState.speechEnabled = !appState.speechEnabled;
+            const icon = volumeToggle.querySelector('i');
+            if (appState.speechEnabled) {
+                icon.className = 'fas fa-volume-up';
+            } else {
+                icon.className = 'fas fa-volume-mute';
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        // Show Loading Overlay
+        function showLoadingOverlay(message = 'Loading...') {
+            const overlay = document.createElement('div');
+            overlay.id = 'loadingOverlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: white;
+            `;
+            overlay.innerHTML = `
+                <div style="width: 60px; height: 60px; border: 6px solid rgba(255, 255, 255, 0.2); border-top-color: #FF6B35; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;"></div>
+                <p style="font-size: 18px; font-weight: 600;">${escapeHtml(message)}</p>
+                <style>
+                    @keyframes spin {
+                        to { transform: rotate(360deg); }
+                    }
+                </style>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        // Hide Loading Overlay
+        function hideLoadingOverlay() {
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
+        // Utility: Escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load voices for speech synthesis
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        // Make functions globally accessible for the generated HTML buttons
+        window.downloadResumePDF = downloadResumePDF;
+        window.editResume = editResume;
+        window.startNewResume = startNewResume;
+        window.showTemplateSelection = showTemplateSelection;
+    </script>
+
+</body>
+
+</html>

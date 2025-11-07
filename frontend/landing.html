@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARIGAR</title>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:300,400,700' rel='stylesheet'
+        type='text/css'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS VARIABLES & Global Resets (From Code 2) --- */
+        :root {
+            /* Colors for Hero/Stats Section (Code 2) */
+            --color-dark-blue: rgb(10, 25, 47);
+            --color-yellow: rgb(246, 208, 85);
+            --color-white: rgb(255, 255, 255);
+            --color-light-gray: rgb(240, 240, 240);
+            --color-hover-yellow: rgb(255, 214, 77);
+            --color-hover-dark-blue: rgb(26, 49, 78);
+
+            /* Red Color for Problem Solving Section (Code 2) */
+            --color-red: rgb(246, 208, 85);
+            --color-hover-red: #cc2c2c;
+
+            /* Font Variables */
+            --font-primary: 'Montserrat', sans-serif;
+            --font-secondary: 'Roboto', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- NEW: Smooth Scrolling --- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* FIX: Setting a clean white background for the body in standard CSS */
+        body {
+            font-family: var(--font-secondary);
+            line-height: 1.6;
+            background-color: var(--color-white);
+            /* Removed conflicting gradient from File 1's body */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ---------------------------------------------------- */
+        /* --- 2. HERO SECTION STYLES (FROM CODE 2) --- */
+        /* ---------------------------------------------------- */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            background-image: url('1.png');
+            background-size: cover;
+            background-position: center 30%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--color-white);
+            will-change: background-position;
+        }
+
+        .hero-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 0 5%;
+        }
+
+        /* --- UPDATED: Navbar Styles --- */
+        .navbar {
+            height: 80px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0 20px;
+            z-index: 100;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* --- NEW: Sticky Navbar State --- */
+        .navbar.is-sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            max-width: 100%;
+            transform: translateY(0);
+            background-color: var(--color-dark-blue);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 0 5%;
+        }
+
+        /* NEW: Styles for the hidden-on-scroll-down state */
+        .navbar:not(.is-sticky) {
+            position: absolute;
+            left: 0;
+            right: 0;
+            max-width: 100%;
+            padding: 0 5%;
+            transform: translateX(0);
+        }
+
+        .navbar.is-hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            font-family: var(--font-primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--color-white);
+        }
+
+        .nav-links a {
+            color: var(--color-white);
+            margin-left: 25px;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        /* NEW: Navbar link hover effect */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-yellow);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--color-yellow);
+            margin-bottom: 5px;
+        }
+
+        .title {
+            font-family: var(--font-primary);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            max-width: 600px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .cta-buttons a {
+            display: inline-block;
+            padding: 12px 25px;
+            margin-right: 15px;
+            border-radius: 5px;
+            font-family: var(--font-primary);
+            font-weight: 700;
+            transition: background-color 0.3s, transform 0.2s ease, box-shadow 0.2s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            border: 2px solid transparent;
+        }
+
+        /* --- NEW: Button Hover Polish --- */
+        .btn-primary:hover,
+        .btn-secondary:hover,
+        .btn-yellow-text:hover,
+        .more-about-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background-color: var(--color-yellow);
+            color: var(--color-dark-blue);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-hover-yellow);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-white);
+            border-color: var(--color-white);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ---------------------------------------------------- */
+        /* --- 3. STATS & ABOUT SECTION STYLES (FROM CODE 2) --- */
+        /* ---------------------------------------------------- */
+        .stats-and-about-section {
+            display: flex;
+            margin-top: -150px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: var(--color-white);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            position: relative;
+        }
+
+        .about-us-panel {
+            background-color: var(--color-yellow);
+            color: var(--color-dark-blue);
+            padding: 40px;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .panel-subtitle {
+            font-family: var(--font-primary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .panel-title {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .panel-text {
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-yellow-text {
+            background-color: var(--color-dark-blue);
+            color: var(--color-yellow);
+            padding: 10px 20px;
+            border-radius: 5px;
+            align-self: flex-start;
+            font-weight: 700;
+            transition: background-color 0.3s, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-yellow-text:hover {
+            background-color: var(--color-hover-dark-blue);
+        }
+
+        .stats-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px;
+            width: 60%;
+            background-color: var(--color-white);
+            color: var(--color-dark-blue);
+        }
+
+        .stat-item {
+            padding: 10px;
+        }
+
+        .stat-number {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-yellow);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .stat-description {
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* ---------------------------------------------------- */
+        /* --- 4. PROBLEM SOLVING SECTION STYLES (FROM CODE 2) --- */
+        /* ---------------------------------------------------- */
+        .problem-solving-section {
+            display: flex;
+            max-width: 1200px;
+            margin: 80px auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .content-left {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .heading-group h1 {
+            font-size: 2.5em;
+            color: #333;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .heading-group .separator {
+            width: 50px;
+            height: 3px;
+            background-color: var(--color-red);
+            margin-bottom: 25px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.2s;
+        }
+
+        /* --- NEW: Separator Animation Trigger --- */
+        .content-left.is-visible .separator {
+            transform: scaleX(1);
+        }
+
+        .content-left>p {
+            font-size: 0.95em;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+            color: #333;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            will-change: opacity, transform;
+        }
+
+        /* --- NEW: Feature Item Animation Trigger --- */
+        .content-left.is-visible .feature-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* --- NEW: Staggered delays for feature items --- */
+        .content-left.is-visible .feature-item:nth-child(1) {
+            transition-delay: 0.3s;
+        }
+
+        .content-left.is-visible .feature-item:nth-child(2) {
+            transition-delay: 0.4s;
+        }
+
+        .content-left.is-visible .feature-item:nth-child(3) {
+            transition-delay: 0.5s;
+        }
+
+        .content-left.is-visible .feature-item:nth-child(4) {
+            transition-delay: 0.6s;
+        }
+
+        .feature-item::before {
+            content: "✓";
+            color: white;
+            background-color: var(--color-red);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .signature-contact {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 30px;
+        }
+
+        .signature-area {
+            flex: 1;
+        }
+
+        /* --- CHANGED: Updated font for "CODE TO CAREER" to professional font --- */
+        .signature {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            line-height: 1;
+            color: #222;
+            letter-spacing: 1px;
+        }
+
+        .signature-title {
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        .contact-area {
+            text-align: right;
+        }
+
+        .contact-area p {
+            font-size: 0.8em;
+            color: var(--color-red);
+            margin-bottom: 5px;
+        }
+
+        .contact-area .phone-number {
+            font-size: 1.5em;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .more-about-btn {
+            display: inline-block;
+            background-color: var(--color-red);
+            color: white;
+            padding: 10px 30px;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.9em;
+            border-radius: 3px;
+            transition: background-color 0.3s, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .more-about-btn:hover {
+            background-color: var(--color-hover-red);
+        }
+
+        .image-right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .image-right img {
+            width: 100%;
+            max-height: 550px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        /* --- NEW: Image hover effect --- */
+        .image-right img:hover {
+            transform: scale(1.05);
+        }
+
+        /* ---------------------------------------------------- */
+        /* --- 5. STYLES FOR "ProResume AI" SECTION (FROM CODE 1) --- */
+        /* ---------------------------------------------------- */
+
+        /* This new class applies the background from File 1 ONLY to its own section */
+        .solution-section-bg {
+            font-family: 'Inter', sans-serif;
+            /* This gradient mimics the blurry, colorful vibe */
+            background-image: radial-gradient(circle at 10% 90%, #FFB6C1 0%, #FFDAB9 20%, transparent 50%),
+                radial-gradient(circle at 90% 90%, #ADD8E6 0%, #B0E0E6 20%, transparent 50%);
+            background-color: #f8f9fa;
+            /* A light fallback */
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* 'fixed' creates a nice parallax effect */
+        }
+
+        /* The "frosted glass" card effect */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Styles for the connecting lines in the diagram */
+        .line {
+            position: absolute;
+            background-color: #cbd5e1;
+            /* gray-300 */
+            z-index: 0;
+        }
+
+        /* ---------------------------------------------------- */
+        /* --- 6. SERVICES SECTION STYLES (FROM CODE 2) --- */
+        /* ---------------------------------------------------- */
+
+        .service-card {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        /* --- NEW: Card icon hover effect (when card is hovered) --- */
+        .service-card:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        /* The container for the services section in code 2 needs to stand alone */
+        .services-container {
+            background-color: var(--color-white);
+            padding: 2rem 0;
+        }
+
+        /* ---------------------------------------------------- */
+        /* --- 7. NEW ANIMATION STYLES (FROM CODE 2) --- */
+        /* ---------------------------------------------------- */
+
+        /* 1. Hero Content Fade-in on Load */
+        .hero-content>* {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: heroFadeIn 0.6s ease-out forwards;
+        }
+
+        /* Stagger the hero content */
+        .hero-content .subtitle {
+            animation-delay: 0.2s;
+        }
+
+        .hero-content .title {
+            animation-delay: 0.4s;
+        }
+
+        .hero-content .description {
+            animation-delay: 0.6s;
+        }
+
+        .hero-content .cta-buttons {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes heroFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 2. On-Scroll Animations */
+        .fade-in-up,
+        .fade-in-left,
+        .fade-in-right {
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000),
+                transform 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            will-change: opacity, transform;
+        }
+
+        /* --- NEW: Animation modifier classes --- */
+        .fade-in-up {
+            transform: translateY(30px);
+        }
+
+        .fade-in-left {
+            transform: translateX(-30px);
+        }
+
+        .fade-in-right {
+            transform: translateX(30px);
+        }
+
+        /* The visible state for all animated elements */
+        .is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* --- NEW: Staggered animation delays for service cards --- */
+        .service-card.fade-in-up {
+            transition-delay: 0s;
+        }
+
+        .service-card.fade-in-up:nth-child(2) {
+            transition-delay: 0.15s;
+        }
+
+        .service-card.fade-in-up:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .service-card.fade-in-up:nth-child(4) {
+            transition-delay: 0.45s;
+        }
+
+        /* ---------------------------------------------------- */
+        /* --- 8. NEW TIMER STYLES (FROM CODE 2) --- */
+        /* ---------------------------------------------------- */
+        .auto-launch-timer {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(10, 25, 47, 0.9);
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--color-yellow);
+            transition: all 0.3s ease;
+        }
+
+        .timer-circle {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timer-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .timer-circle-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 3;
+        }
+
+        .timer-circle-fill {
+            fill: none;
+            stroke: var(--color-yellow);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: var(--font-primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .timer-label {
+            position: absolute;
+            bottom: -25px;
+            width: 100%;
+            text-align: center;
+            color: var(--color-yellow);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer-complete {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(246, 208, 85, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(246, 208, 85, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(246, 208, 85, 0);
+            }
+        }
+
+        /* ---------------------------------------------------- */
+        /* --- 9. MEDIA QUERIES (FROM CODE 1 & 2) --- */
+        /* ---------------------------------------------------- */
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 70vh;
+            }
+
+            .title {
+                font-size: 2.5rem;
+            }
+
+            /* Code 1 & 2 container adjustment */
+            .stats-and-about-section,
+            .problem-solving-section {
+                max-width: 90%;
+            }
+
+            /* Code 2 Responsiveness */
+            .stats-and-about-section {
+                flex-direction: column;
+                margin-top: -100px;
+                margin-bottom: 30px;
+            }
+
+            .about-us-panel,
+            .stats-panel {
+                width: 100%;
+                padding: 30px 20px;
+            }
+
+            .stats-panel {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .cta-buttons a {
+                margin-right: 10px;
+                margin-bottom: 10px;
+                font-size: 0.8rem;
+                padding: 10px 20px;
+            }
+
+            /* --- NEW: Mobile Navbar --- */
+            .nav-links {
+                display: none;
+            }
+
+            /* Code 2 Responsiveness */
+            .problem-solving-section {
+                flex-direction: column;
+            }
+
+            .content-left {
+                padding-right: 0;
+                padding-bottom: 30px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .image-right {
+                justify-content: center;
+            }
+
+            .signature-contact {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .contact-area {
+                text-align: left;
+                margin-top: 20px;
+            }
+
+            /* --- CHANGED: Mobile adjustment for signature --- */
+            .signature {
+                font-size: 1.8em;
+            }
+
+            /* Mobile responsiveness for timer */
+            .auto-launch-timer {
+                width: 80px;
+                height: 80px;
+                right: 10px;
+            }
+
+            .timer-text {
+                font-size: 1rem;
+            }
+
+            .timer-label {
+                font-size: 0.6rem;
+                bottom: -20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auto-launch-timer" id="autoLaunchTimer">
+        <div class="timer-circle">
+            <svg class="timer-svg" viewBox="0 0 100 100">
+                <circle class="timer-circle-bg" cx="50" cy="50" r="45"></circle>
+                <circle class="timer-circle-fill" cx="50" cy="50" r="45" id="timerCircle"></circle>
+            </svg>
+            <div class="timer-text" id="timerText">30</div>
+        </div>
+        <div class="timer-label">Auto Launch</div>
+    </div>
+
+    <header class="hero-section" id="home">
+        <div class="hero-overlay">
+
+            <nav class="navbar" id="navbar">
+                <a href="#home" class="nav-logo">KARIGAR</a>
+                <div class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#solution">Solution</a> <a href="#services">Services</a>
+                    <a href="#">Contact</a>
+                </div>
+            </nav>
+
+            <div class="hero-content">
+                <p class="subtitle">Circle got smaller —</p>
+                <h1 class="title">VISION GOT LARGER</h1>
+                <p class="description">
+                    Benefit of the sole where we operate. A success website obviously needs great
+                    design to be one top 10 IT companies in The world
+                </p>
+                <div class="cta-buttons">
+                    <a href="#services" class="btn btn-primary">OUR SERVICES</a>
+                    <a href="#" class="btn btn-secondary">CONTACT US</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="stats-and-about-section fade-in-up" id="about">
+            <div class="about-us-panel">
+                <p class="panel-subtitle">Our Vision</p>
+                <h2 class="panel-title">FROM OVERLOOKED TO IN-DEMAND</h2>
+                <p class="panel-text">
+                    Your AI Resume Assistant For The Trade WorkForce
+                </p>
+                <a href="offiline-chatbot.html" class="btn btn-yellow-text" id="launchChatbotBtn">Get started with FREE</a>
+            </div>
+
+            <div class="stats-panel" id="stats-panel">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="5">0 +</span>
+                    <p class="stat-description">Mins To a Pro Resume</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="7">0 +</span>
+                    <p class="stat-description">professions Covered</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="5">0 +</span>
+                    <p class="stat-description">Languages Supported</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="2">0 +</span>
+                    <p class="stat-description">Professional Resume Templates
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+        <section class="problem-solving-section">
+
+            <div class="content-left fade-in-left">
+
+                <div class="heading-group">
+                    <h1>PROBLEM FACED BY<br>BY BLUE COLLAR PROFESSIONALS</h1>
+                    <div class="separator"></div>
+                </div>
+
+                <p>
+                    Blue-collar professionals face significant challenges such as
+                    they struggle to present their skills effectively due to language
+                    barriers and lack of professional guidance. Consequently, they are
+                    unable to create structured, ATS-friendly resumes and miss out on
+                    potential employment opportunities in the digital job market,for
+                    those people we are here.
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">LOW LITERACY</div>
+                    <div class="feature-item">LINGUISTIC BARRIER</div>
+                    <div class="feature-item">DIFFICULTY IN TYPING</div>
+                    <div class="feature-item">PRODUCTION LINE SUPPORT</div>
+                </div>
+
+                <div class="signature-contact">
+                    <div class="signature-area">
+                        <p class="signature">CODE TO CAREER</p>
+                        <p class="signature-title">TEAM</p>
+                        <p class="signature-title">CREATOR</p>
+                    </div>
+                    <div class="contact-area">
+                        <p>For Any Queries,Call The Helpline No.</p>
+                        <p class="phone-number">+91 8917300750</p>
+                    </div>
+                </div>
+
+                <a href="more_about_us.html" class="more-about-btn">MORE ABOUT US</a>
+
+            </div>
+
+            <div class="image-right fade-in-right">
+                <img src="2.png" alt="Farmer carrying a pot in a rice field">
+            </div>
+
+        </section>
+
+        <hr />
+
+        <section id="solution" class="solution-section-bg">
+            <div class="w-full min-h-screen p-6 md:p-12 lg:p-20 text-gray-900">
+
+                <header class="text-center max-w-4xl mx-auto mb-16 md:mb-24">
+                    <span
+                        class="inline-block bg-gray-200/70 text-gray-800 px-4 py-1 rounded-full text-sm font-semibold mb-4 backdrop-blur-sm">
+                        OUR SOLUTION
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-gray-900">
+                        Land Your Next Job, Faster.
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
+                        Our AI helps blue-collar professionals like you create the perfect resume—no writing experience
+                        needed.
+                    </p>
+                </header>
+
+                <section class="max-w-5xl mx-auto mb-16 md:mb-24">
+                    <div class="relative flex justify-center items-center" style="min-height: 250px;">
+
+                        <a href="offiline-chatbot.html" role="button" aria-label="Open ProResume AI chatbot"
+                            class="relative z-10 bg-gray-900 text-white px-8 py-5 rounded-2xl text-2xl font-bold shadow-2xl transform transition-all duration-300 hover:bg-gray-800 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-cyan-500/50">
+                            ProResume AI
+                        </a>
+
+                        <div class="line hidden md:block" style="width: 2px; height: 100px; top: -90px; left: 25%;">
+                        </div>
+                        <div class="line hidden md:block" style="width: 15%; height: 2px; top: -90px; left: 25%;"></div>
+
+                        <div class="line hidden md:block" style="width: 2px; height: 100px; top: -90px; right: 25%;">
+                        </div>
+                        <div class="line hidden md:block" style="width: 15%; height: 2px; top: -90px; right: 25%;">
+                        </div>
+
+                        <div class="line hidden md:block" style="width: 2px; height: 100px; top: 140px; left: 30%;">
+                        </div>
+                        <div class="line hidden md:block" style="width: 10%; height: 2px; top: 238px; left: 30%;"></div>
+
+                        <div class="line hidden md:block" style="width: 2px; height: 100px; top: 140px; right: 30%;">
+                        </div>
+                        <div class="line hidden md:block" style="width: 10%; height: 2px; top: 238px; right: 30%;">
+                        </div>
+
+                        <div class="glass-card absolute z-10 p-4 rounded-xl shadow-lg" style="top: -120px; left: 10%;">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-semibold">Construction</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-card absolute z-10 p-4 rounded-xl shadow-lg" style="top: -120px; right: 10%;">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-semibold">Manufacturing</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-card absolute z-10 p-4 rounded-xl shadow-lg" style="top: 210px; left: 15%;">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-semibold">Repairing</span>
+                            </div>
+                        </div>
+
+                        <div class="glass-card absolute z-10 p-4 rounded-xl shadow-lg" style="top: 210px; right: 15%;">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-semibold">Painting</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+
+                        <div class="glass-card rounded-2xl p-6 shadow-xl">
+                            <div class="bg-white/50 rounded-lg p-2">
+                                <img src="7.png" alt="AI Resume Example for Fitter" class="rounded-md shadow-lg w-full">
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-6 shadow-xl">
+                            <div class="bg-white/50 rounded-lg p-2">
+                                <img src="8.png" alt="AI Resume Example for Driver" class="rounded-md shadow-lg w-full">
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-6 shadow-xl">
+                            <div class="bg-white/50 rounded-lg p-2">
+                                <img src="9.png" alt="AI Resume Example in Hindi" class="rounded-md shadow-lg w-full">
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+        </section>
+        <section class="services-container" id="services">
+            <div class="container mx-auto px-4 py-16 max-w-7xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-extrabold text-gray-800 tracking-wide uppercase mb-4">
+                        OUR SERVICES
+                    </h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto text-lg">
+                        Our specialist consultants have a broad range of industry experience and are available for short
+                        and long term engagements.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                    <div
+                        class="service-card bg-white p-6 rounded-lg border border-gray-100 flex flex-col items-start text-left fade-in-up">
+                        <div class="mb-6 p-4 rounded-xl bg-yellow-50">
+                            <img src="3.png" alt="Offline Functionality Icon" class="card-icon"
+                                onerror="this.onerror=null; this.src='https://placehold.co/80x80/ffe500/000000?text=Offline';" />
+                        </div>
+
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Offline Functionality</h3>
+                        <p class="text-sm text-gray-500">
+                            Our application works seamlessly even without an internet connection, allowing you to access
+                            key features anytime, anywhere.
+                        </p>
+                    </div>
+
+                    <div
+                        class="service-card bg-white p-6 rounded-lg border border-gray-100 flex flex-col items-start text-left fade-in-up">
+                        <div class="mb-6 p-4 rounded-xl bg-orange-50">
+                            <img src="4.png" alt="Voice Input Icon" class="card-icon"
+                                onerror="this.onerror=null; this.src='https://placehold.co/80x80/ff9900/ffffff?text=Voice';" />
+                        </div>
+
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Voice Input</h3>
+                        <p class="text-sm text-gray-500">
+                            Easily interact with the system using natural speech. Our voice recognition features
+                            streamline data entry and command execution.
+                        </p>
+                    </div>
+
+                    <div
+                        class="service-card bg-white p-6 rounded-lg border border-gray-100 flex flex-col items-start text-left fade-in-up">
+                        <div class="mb-6 p-4 rounded-xl bg-yellow-50">
+                            <img src="5.png" alt="ATS Friendly Icon" class="card-icon"
+                                onerror="this.onerror=null; this.src='https://placehold.co/80x80/ffd700/000000?text=ATS';" />
+                        </div>
+
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">ATS Friendly</h3>
+                        <p class="text-sm text-gray-500">
+                            Ensures your documents are perfectly formatted to pass Applicant Tracking Systems (ATS)
+                            filters and reach recruiters directly.
+                        </p>
+                    </div>
+
+                    <div
+                        class="service-card bg-white p-6 rounded-lg border border-gray-100 flex flex-col items-start text-left fade-in-up">
+                        <div class="mb-6 p-4 rounded-xl bg-purple-50">
+                            <img src="6.png" alt="Multilingual Icon" class="card-icon"
+                                onerror="this.onerror=null; this.src='https://placehold.co/80x80/9333ea/ffffff?text=Multi';" />
+                        </div>
+
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Multilingual</h3>
+                        <p class="text-sm text-gray-500">
+                            Supports interaction and content display in multiple languages, making the application
+                            accessible to a global audience.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. ON-SCROLL FADE-IN ANIMATION ---
+            const scrollElements = document.querySelectorAll(
+                '.fade-in-up, .fade-in-left, .fade-in-right'
+            );
+
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        scrollObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            scrollElements.forEach(el => {
+                scrollObserver.observe(el);
+            });
+
+            // --- 2. DYNAMIC COUNTER ANIMATION ---
+            const statsPanel = document.getElementById('stats-panel');
+
+            const startCounters = () => {
+                const counters = statsPanel.querySelectorAll('.stat-number');
+                counters.forEach(counter => {
+                    const target = +counter.dataset.target;
+                    let current = 0;
+                    const speed = 200;
+                    const increment = Math.max(1, Math.ceil(target / speed));
+
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        counter.innerText = current + ' +';
+                    }, 10);
+                });
+            };
+
+            const statsObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startCounters();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+
+            if (statsPanel) {
+                statsObserver.observe(statsPanel);
+            }
+
+            // --- 3. SMOOTH SCROLL (PARALLAX & NAVBAR) ---
+            const navbar = document.getElementById('navbar');
+            const heroSection = document.getElementById('home');
+            let lastScrollY = window.scrollY;
+            const heroHeight = 200;
+            let ticking = false;
+
+            function handleScroll() {
+                const currentScrollY = window.scrollY;
+
+                // Parallax Logic
+                if (currentScrollY < window.innerHeight) {
+                    heroSection.style.backgroundPositionY = `calc(30% + ${currentScrollY * 0.3}px)`;
+                }
+
+                // Sticky Navbar Logic
+                if (currentScrollY > heroHeight) {
+                    if (currentScrollY > lastScrollY) {
+                        navbar.classList.add('is-hidden');
+                        navbar.classList.remove('is-sticky');
+                    } else {
+                        navbar.classList.add('is-sticky');
+                        navbar.classList.remove('is-hidden');
+                    }
+                } else {
+                    navbar.classList.remove('is-sticky');
+                    navbar.classList.remove('is-hidden');
+                }
+
+                lastScrollY = currentScrollY;
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(handleScroll);
+                    ticking = true;
+                }
+            });
+
+            // --- 4. NEW: AUTO-LAUNCH TIMER ---
+            const timerElement = document.getElementById('autoLaunchTimer');
+            const timerText = document.getElementById('timerText');
+            const timerCircle = document.getElementById('timerCircle');
+            const launchChatbotBtn = document.getElementById('launchChatbotBtn');
+
+            let timeLeft = 30;
+            const totalTime = 30;
+            const circumference = 283; // 2 * π * r (r=45)
+
+            // Update timer display
+            function updateTimer() {
+                timerText.textContent = timeLeft;
+
+                // Update circle progress
+                const offset = circumference - (timeLeft / totalTime) * circumference;
+                timerCircle.style.strokeDashoffset = offset;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerElement.classList.add('timer-complete');
+                    timerText.textContent = 'GO!';
+
+                    // Automatically click the chatbot button after a brief delay
+                    setTimeout(() => {
+                        launchChatbotBtn.click();
+                    }, 800);
+                } else {
+                    timeLeft--;
+                }
+            }
+
+            // Start the timer
+            const timerInterval = setInterval(updateTimer, 1000);
+        });
+    </script>
+</body>
+
+</html>

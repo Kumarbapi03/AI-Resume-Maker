@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARIGAR TEAM</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Google Font (Inter) --><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Load AOS (Animate on Scroll) CSS --><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Configure Tailwind --><script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        // For the individual "fruit" nodes
+                        'pulse-glow-node': 'pulse-glow-node 3s ease-in-out infinite',
+                        // For the overall background glowing tree effect
+                        'glow-tree-anim': 'glow-tree-anim 10s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        'pulse-glow-node': {
+                            '0%, 100%': {
+                                boxShadow: '0 0 15px theme(colors.cyan.500)',
+                                transform: 'scale(1)',
+                            },
+                            '50%': {
+                                boxShadow: '0 0 30px theme(colors.cyan.300)',
+                                transform: 'scale(1.03)',
+                            },
+                        },
+                        'glow-tree-anim': {
+                            '0%': {
+                                transform: 'scale(1) rotate(0deg)',
+                                opacity: '0.6',
+                                filter: 'blur(10px)',
+                            },
+                            '100%': {
+                                transform: 'scale(1.05) rotate(5deg)',
+                                opacity: '0.8',
+                                filter: 'blur(15px)',
+                            },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+    
+    <style>
+        /* Custom scrollbar for a more futuristic feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b; /* slate-800 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #06b6d4; /* cyan-500 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #22d3ee; /* cyan-400 */
+        }
+
+        /* Base styles for the glowing tree background */
+        .glowing-tree-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, rgba(6, 182, 212, 0.1) 0%, rgba(30, 41, 59, 1) 70%); /* Subtle central light */
+        }
+
+        .glowing-element {
+            position: absolute;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.7) 0%, rgba(6, 182, 212, 0) 70%);
+            border-radius: 50%;
+            animation: glow-tree-anim 15s ease-in-out infinite alternate;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+        /* More specific glowing elements for a tree-like shape */
+        .glowing-element:nth-child(1) {
+            width: 300px; height: 600px; /* Trunk base */
+            bottom: -200px;
+            left: 50%; transform: translateX(-50%);
+            background: radial-gradient(circle, rgba(20, 150, 200, 0.7) 0%, rgba(20, 150, 200, 0) 70%);
+            animation-duration: 18s;
+        }
+        .glowing-element:nth-child(2) {
+            width: 400px; height: 400px; /* Lower branch */
+            top: 10%; left: 15%;
+            animation-delay: 2s;
+            animation-duration: 12s;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.6) 0%, rgba(6, 182, 212, 0) 70%);
+        }
+        .glowing-element:nth-child(3) {
+            width: 350px; height: 350px; /* Right branch */
+            top: 20%; right: 10%;
+            animation-delay: 4s;
+            animation-duration: 16s;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.5) 0%, rgba(6, 182, 212, 0) 70%);
+        }
+        .glowing-element:nth-child(4) {
+            width: 200px; height: 200px; /* Top detail */
+            top: 5%; left: 40%;
+            animation-delay: 1s;
+            animation-duration: 10s;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.8) 0%, rgba(6, 182, 212, 0) 70%);
+        }
+        .glowing-element:nth-child(5) {
+            width: 250px; height: 250px; /* Left middle branch */
+            top: 40%; left: 5%;
+            animation-delay: 3s;
+            animation-duration: 14s;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(6, 182, 212, 0) 70%);
+        }
+        /* End glowing tree background styles */
+    </style>
+</head>
+
+<body class="bg-slate-900 text-gray-200 font-inter relative overflow-x-hidden">
+
+    <!-- Glowing Tree Background Elements -->
+    <div class="glowing-tree-background">
+        <div class="glowing-element"></div>
+        <div class="glowing-element"></div>
+        <div class="glowing-element"></div>
+        <div class="glowing-element"></div>
+    </div>
+
+    <!-- Page Content (layered above the background) -->
+    <div class="relative z-10 flex flex-col items-center min-h-screen py-24">
+        <!-- Page Title -->
+        <h1 class="text-4xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 mb-4 uppercase" data-aos="fade-down" data-aos-duration="1000">
+            PROJECT CORE
+        </h1>
+        <p class="text-lg sm:text-xl text-gray-400 mb-20 sm:mb-24 uppercase" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="200">The architects behind the vision.</p>
+
+        <!-- 
+          Tree Structure Container:
+          - Uses 'flex' and 'relative' for positioning.
+        --><main class="relative w-full max-w-5xl mx-auto px-4 flex flex-col items-center">
+
+            <!-- Central Stem / Root Line --><div class="w-0.5 h-32 sm:h-48 bg-gradient-to-b from-cyan-600 to-cyan-800 relative z-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400"></div>
+
+            <!-- Horizontal Branching Line (Top) --><div class="relative w-full sm:w-3/4 h-0.5 bg-cyan-700/50 my-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400"></div>
+
+            <!-- Team Members Container - distributed on "branches" --><div class="relative w-full flex flex-wrap justify-center sm:justify-between items-center z-10">
+                
+                <!-- Member 1: SACHIDANANDA SAHU --><div class="group relative flex flex-col items-center m-4 sm:m-8 w-40 sm:w-48" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                    <!-- Branch Line to node --><div class="w-0.5 h-12 sm:h-16 bg-gradient-to-b from-cyan-700/50 to-cyan-500
+                                transition-all duration-300 group-hover:from-cyan-400 group-hover:to-cyan-200"></div>
+                    <!-- Node Card as "Fruit" - NOW WITH GLASSMORPHISM -->
+                    <div class="w-36 h-36 sm:w-44 sm:h-44
+                                bg-cyan-900/10 backdrop-blur-md border-2 border-cyan-700 rounded-full
+                                flex flex-col items-center justify-center text-center p-3
+                                shadow-lg shadow-cyan-900/50
+                                animate-pulse-glow-node
+                                transition-all duration-300
+                                group-hover:border-cyan-400 group-hover:scale-105 group-hover:shadow-cyan-500/80">
+                        <h3 class="text-base sm:text-lg font-bold text-cyan-400 uppercase">SACHIDANANDA SAHU</h3>
+                        <p class="text-xs text-gray-400 uppercase">BACKEND & OVERALL DEVELOPMENT</p>
+                    </div>
+                </div>
+                
+                <!-- Member 2: RUPESH --><div class="group relative flex flex-col items-center m-4 sm:m-8 w-40 sm:w-48" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="700">
+                    <!-- Branch Line to node --><div class="w-0.5 h-12 sm:h-16 bg-gradient-to-b from-cyan-700/50 to-cyan-500
+                                transition-all duration-300 group-hover:from-cyan-400 group-hover:to-cyan-200"></div>
+                    <!-- Node Card as "Fruit" - NOW WITH GLASSMORPHISM -->
+                    <div class="w-36 h-36 sm:w-44 sm:h-44
+                                bg-cyan-900/10 backdrop-blur-md border-2 border-cyan-700 rounded-full
+                                flex flex-col items-center justify-center text-center p-3
+                                shadow-lg shadow-cyan-900/50
+                                animate-pulse-glow-node
+                                transition-all duration-300
+                                group-hover:border-cyan-400 group-hover:scale-105 group-hover:shadow-cyan-500/80">
+                        <h3 class="text-base sm:text-lg font-bold text-cyan-400 uppercase">RUPESH</h3>
+                        <p class="text-xs text-gray-400 uppercase">PRESENTATION & OVERALL IDEAS</p>
+                    </div>
+                </div>
+
+                <!-- Member 3: ADITYA MUKHARJEE --><div class="group relative flex flex-col items-center m-4 sm:m-8 w-40 sm:w-48" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+                    <!-- Branch Line to node --><div class="w-0.5 h-12 sm:h-16 bg-gradient-to-b from-cyan-700/50 to-cyan-500
+                                transition-all duration-300 group-hover:from-cyan-400 group-hover:to-cyan-200"></div>
+                    <!-- Node Card as "Fruit" - NOW WITH GLASSMORPHISM -->
+                    <div class="w-36 h-36 sm:w-44 sm:h-44
+                                bg-cyan-900/10 backdrop-blur-md border-2 border-cyan-700 rounded-full
+                                flex flex-col items-center justify-center text-center p-3
+                                shadow-lg shadow-cyan-900/50
+                                animate-pulse-glow-node
+                                transition-all duration-300
+                                group-hover:border-cyan-400 group-hover:scale-105 group-hover:shadow-cyan-500/80">
+                        <h3 class="text-base sm:text-lg font-bold text-cyan-400 uppercase">ADITYA MUKHARJEE</h3>
+                        <p class="text-xs text-gray-400 uppercase">FRONTEND DESIGN</p>
+                    </div>
+                </div>
+
+                <!-- Member 4: RAHUL PATTNAYAK --><div class="group relative flex flex-col items-center m-4 sm:m-8 w-40 sm:w-48" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="900">
+                    <!-- Branch Line to node --><div class="w-0.5 h-12 sm:h-16 bg-gradient-to-b from-cyan-700/50 to-cyan-500
+                                transition-all duration-300 group-hover:from-cyan-400 group-hover:to-cyan-200"></div>
+                    <!-- Node Card as "Fruit" - NOW WITH GLASSMORPHISM -->
+                    <div class="w-36 h-36 sm:w-44 sm:h-44
+                                bg-cyan-900/10 backdrop-blur-md border-2 border-cyan-700 rounded-full
+                                flex flex-col items-center justify-center text-center p-3
+                                shadow-lg shadow-cyan-900/50
+                                animate-pulse-glow-node
+                                transition-all duration-300
+                                group-hover:border-cyan-400 group-hover:scale-105 group-hover:shadow-cyan-500/80">
+                        <h3 class="text-base sm:text-lg font-bold text-cyan-400 uppercase">RAHUL PATTNAYAK</h3>
+                        <p class="text-xs text-gray-400 uppercase">FRONTEND CONTENTS</p>
+                    </div>
+                </div>
+
+                <!-- Member 5: RAKESH BARIK --><div class="group relative flex flex-col items-center m-4 sm:m-8 w-40 sm:w-48" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000">
+                    <!-- Branch Line to node --><div class="w-0.5 h-12 sm:h-16 bg-gradient-to-b from-cyan-700/50 to-cyan-500
+                                transition-all duration-300 group-hover:from-cyan-400 group-hover:to-cyan-200"></div>
+                    <!-- Node Card as "Fruit" - NOW WITH GLASSMORPHISM -->
+                    <div class="w-36 h-36 sm:w-44 sm:h-44
+                                bg-cyan-900/10 backdrop-blur-md border-2 border-cyan-700 rounded-full
+                                flex flex-col items-center justify-center text-center p-3
+                                shadow-lg shadow-cyan-900/50
+                                animate-pulse-glow-node
+                                transition-all duration-300
+                                group-hover:border-cyan-400 group-hover:scale-105 group-hover:shadow-cyan-500/80">
+                        <h3 class="text-base sm:text-lg font-bold text-cyan-400 uppercase">RAKESH BARIK</h3>
+                        <p class="text-xs text-gray-400 uppercase">USER INTERFACE</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+        
+        <!-- Spacer div to make the page scrollable for demo purposes -->
+        <div class="h-[50vh]"></div>
+    </div>
+
+    <!-- Load AOS (Animate on Scroll) JS --><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // --- Initialize AOS ---
+        AOS.init({
+            once: true, // Whether animation should happen only once - while scrolling down
+            mirror: false, // Whether elements should animate out while scrolling past them
+        });
+
+        // --- Dynamic Parallax and Mouse-Move Script ---
+
+        const glowingTree = document.querySelector('.glowing-tree-background');
+
+        let currentScrollY = window.scrollY;
+        let mouseX = 0;
+        let mouseY = 0;
+
+        // Update scroll position
+        window.addEventListener('scroll', () => {
+            currentScrollY = window.scrollY;
+        }, { passive: true }); // Use passive listener for better scroll performance
+
+        // Update mouse position
+        window.addEventListener('mousemove', (e) => {
+            // Calculate mouse position from -1 to 1
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        // Animation loop to apply transforms smoothly
+        function tick() {
+            // 1. Parallax: Move Y based on scroll (moves at half-speed)
+            const parallaxY = currentScrollY * 0.5;
+            
+            // 2. Mouse Move: Shift X and Y based on mouse (strength of 30px)
+            const moveX = mouseX * 30;
+            const moveY = mouseY * 30;
+
+            // 3. Apply combined transforms
+            // We combine the scroll (parallaxY) and mouse (moveY) effects on the Y-axis
+            glowingTree.style.transform = `translate(${moveX}px, ${parallaxY + moveY}px)`;
+
+            // Continue the loop
+            window.requestAnimationFrame(tick);
+        }
+
+        // Start the animation loop
+        tick();
+    </script>
+</body>
+</html>
